@@ -28,6 +28,12 @@ nav .logo span{color:var(--accent2)}
 nav a{color:var(--text2);margin-left:24px;font-size:.88rem}
 nav a:hover{color:var(--text)}
 
+/* Lang toggle */
+.lang-toggle{display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-left:14px;vertical-align:middle}
+.lang-toggle button{background:var(--surface);color:var(--text3);border:none;padding:4px 10px;font-size:.78rem;cursor:pointer;font-family:var(--sans);transition:all .2s}
+.lang-toggle button.active{background:var(--accent);color:var(--text)}
+.lang-toggle button:hover:not(.active){background:var(--surface2);color:var(--text)}
+
 /* Hero */
 .hero{padding:120px 0 80px;text-align:center}
 .hero h1{font-size:2.6rem;font-weight:700;line-height:1.25;margin-bottom:16px;letter-spacing:-.02em}
@@ -141,28 +147,32 @@ footer a{margin:0 10px}
 <nav class="wrap">
   <div class="logo"><span>Context</span> Engineering Kit</div>
   <div>
-    <a href="#value">Why</a>
-    <a href="#what">What</a>
-    <a href="#how">How</a>
-    <a href="https://github.com/your-repo/context-engineering-kit">GitHub</a>
+    <a href="#value" data-i18n="nav_why">Why</a>
+    <a href="#what" data-i18n="nav_what">What</a>
+    <a href="#how" data-i18n="nav_how">How</a>
+    <a href="https://github.com/Vincent-chao-lang/context-engineering-kit">GitHub</a>
+    <span class="lang-toggle">
+      <button id="lang-en" class="active" onclick="setLang('en')">EN</button>
+      <button id="lang-zh" onclick="setLang('zh')">中文</button>
+    </span>
   </div>
 </nav>
 
 <!-- Hero -->
 <section class="hero wrap">
-  <h1>Your AI should remember<br>what you built yesterday.</h1>
-  <p>Context Engineering Kit stores project state in files. AI reads them every session. No more cold starts.</p>
+  <h1 data-i18n="hero_title">Your AI should remember<br>what you built yesterday.</h1>
+  <p data-i18n="hero_desc">Context Engineering Kit stores project state in files. AI reads them every session. No more cold starts.</p>
   <div class="hero-install"><span class="dollar">$ </span>./install.sh &amp;&amp; claude "/init-context"</div>
-  <div class="hero-hint">Works with Claude Code. Adapts to Codex, Cursor, Windsurf.</div>
+  <div class="hero-hint" data-i18n="hero_hint">Works with Claude Code. Adapts to Codex, Cursor, Windsurf.</div>
 </section>
 
 <!-- Before/After -->
 <section class="compare wrap" id="value">
-  <h2>The difference is 15 minutes per session.</h2>
+  <h2 data-i18n="compare_title">The difference is 15 minutes per session.</h2>
   <div class="compare-grid">
     <div class="compare-col before">
-      <h3>Before <span class="tag tag-bad">every session</span></h3>
-      <pre><span class="line-bad">You:</span> This project is a VAT system using Tauri...
+      <h3 data-i18n="compare_before_title">Before <span class="tag tag-bad">every session</span></h3>
+      <pre data-i18n="compare_before_pre"><span class="line-bad">You:</span> This project is a VAT system using Tauri...
 <span class="line-bad">You:</span> We use Zhipu API for OCR and translation...
 <span class="line-bad">You:</span> Last week we decided against SQLite...
 <span class="line-bad">You:</span> There's a bug in PDF parsing...
@@ -171,8 +181,8 @@ footer a{margin:0 10px}
 <span class="line-bad">You:</span> (finally start working, 15 min later)</pre>
     </div>
     <div class="compare-col after">
-      <h3>After <span class="tag tag-good">/start</span></h3>
-      <pre><span class="line-good">AI:</span> Read CLAUDE.md, DECISIONS.md, memory/...
+      <h3 data-i18n="compare_after_title">After <span class="tag tag-good">/start</span></h3>
+      <pre data-i18n="compare_after_pre"><span class="line-good">AI:</span> Read CLAUDE.md, DECISIONS.md, memory/...
 <span class="line-good">AI:</span>
 <span class="line-good">AI:</span> Phase: MVP development
 <span class="line-good">AI:</span> Last: batch invoice recognition (30 min ago)
@@ -186,32 +196,32 @@ footer a{margin:0 10px}
 
 <!-- Value Dimensions -->
 <section class="values wrap">
-  <h2>It's not just about saving time.</h2>
-  <p>The real cost of AI amnesia isn't minutes. It's wrong decisions, repeated bugs, and broken continuity.</p>
+  <h2 data-i18n="values_title">It's not just about saving time.</h2>
+  <p data-i18n="values_desc">The real cost of AI amnesia isn't minutes. It's wrong decisions, repeated bugs, and broken continuity.</p>
   <div class="val-grid">
     <div class="val-card">
       <span class="val-icon">&#9201;</span>
-      <h3>Continuity</h3>
-      <p>Every session picks up where the last one ended. Progress, blockers, next steps &mdash; all preserved.</p>
-      <pre><span class="bad">Before:</span> "What was I doing last Friday?"
+      <h3 data-i18n="val_continuity_title">Continuity</h3>
+      <p data-i18n="val_continuity_desc">Every session picks up where the last one ended. Progress, blockers, next steps &mdash; all preserved.</p>
+      <pre data-i18n="val_continuity_pre"><span class="bad">Before:</span> "What was I doing last Friday?"
 <span class="good">After:</span>  /start reads memory/current_state.md
          Last: auth refactor (2 days ago)
          Next: write tests for login flow</pre>
     </div>
     <div class="val-card">
       <span class="val-icon">&#9879;</span>
-      <h3>Decision consistency</h3>
-      <p>Recorded decisions don't get relitigated. AI reads why you rejected a proposal and never suggests it again.</p>
-      <pre><span class="bad">Before:</span> AI: "Let's use MongoDB!"
+      <h3 data-i18n="val_decision_title">Decision consistency</h3>
+      <p data-i18n="val_decision_desc">Recorded decisions don't get relitigated. AI reads why you rejected a proposal and never suggests it again.</p>
+      <pre data-i18n="val_decision_pre"><span class="bad">Before:</span> AI: "Let's use MongoDB!"
          You: "We discussed this last week..."
 <span class="good">After:</span>  You: "Check DECISIONS.md D001"
          AI: "Right, rejected MongoDB for SQLite."</pre>
     </div>
     <div class="val-card">
       <span class="val-icon">&#128737;</span>
-      <h3>Bug awareness</h3>
-      <p>Known bugs stay visible. AI won't reintroduce a fix or ignore a known issue when writing new code.</p>
-      <pre><span class="bad">Before:</span> AI fixes bug, next session
+      <h3 data-i18n="val_bug_title">Bug awareness</h3>
+      <p data-i18n="val_bug_desc">Known bugs stay visible. AI won't reintroduce a fix or ignore a known issue when writing new code.</p>
+      <pre data-i18n="val_bug_pre"><span class="bad">Before:</span> AI fixes bug, next session
          re-introduces the same broken pattern
 <span class="good">After:</span>  /start shows active bugs
          AI avoids known-broken patterns
@@ -222,103 +232,103 @@ footer a{margin:0 10px}
 
 <!-- What -->
 <section class="what wrap" id="what">
-  <h2>Three files. Three commands.</h2>
-  <p>The kit creates a file structure that acts as AI's memory. You run commands to read and write it. That's it.</p>
+  <h2 data-i18n="what_title">Three files. Three commands.</h2>
+  <p data-i18n="what_desc">The kit creates a file structure that acts as AI's memory. You run commands to read and write it. That's it.</p>
   <div class="what-card">
     <div class="num">1</div>
     <div>
-      <h3>CLAUDE.md — the onboarding doc</h3>
-      <p>One file AI reads every session. Project goals, tech stack, commands, current focus. Under 100 lines. AI goes from zero to productive in 30 seconds.</p>
+      <h3 data-i18n="what_1_title">CLAUDE.md — the onboarding doc</h3>
+      <p data-i18n="what_1_desc">One file AI reads every session. Project goals, tech stack, commands, current focus. Under 100 lines. AI goes from zero to productive in 30 seconds.</p>
     </div>
   </div>
   <div class="what-card">
     <div class="num">2</div>
     <div>
-      <h3>DECISIONS.md — the anti-reversion mechanism</h3>
-      <p>Records "why we chose X" and "why we rejected Y". When AI suggests MongoDB again, you say "check D001". It reads the reason and stops.</p>
+      <h3 data-i18n="what_2_title">DECISIONS.md — the anti-reversion mechanism</h3>
+      <p data-i18n="what_2_desc">Records "why we chose X" and "why we rejected Y". When AI suggests MongoDB again, you say "check D001". It reads the reason and stops.</p>
     </div>
   </div>
   <div class="what-card">
     <div class="num">3</div>
     <div>
-      <h3>memory/ — the auto-maintained state</h3>
-      <p>Current progress, active bugs, daily log, lessons learned. Updated by <code>/wrap</code> at end of each session. Next session picks up where you left off.</p>
+      <h3 data-i18n="what_3_title">memory/ — the auto-maintained state</h3>
+      <p data-i18n="what_3_desc">Current progress, active bugs, daily log, lessons learned. Updated by <code>/wrap</code> at end of each session. Next session picks up where you left off.</p>
     </div>
   </div>
 </section>
 
 <!-- Use Cases -->
 <section class="usecases wrap" id="usecases">
-  <h2>Is this for you?</h2>
-  <p>If any of these sound familiar, yes.</p>
+  <h2 data-i18n="uc_title">Is this for you?</h2>
+  <p data-i18n="uc_desc">If any of these sound familiar, yes.</p>
   <div class="uc-grid">
     <div class="uc-card">
-      <div class="uc-label">Side project</div>
-      <h3>"I only code 1-2 hours a day"</h3>
-      <p>Every minute counts. You can't afford to spend 15 minutes re-explaining the project to AI each session. <code>/start</code> gives it all back in 30 seconds.</p>
+      <div class="uc-label" data-i18n="uc_side_label">Side project</div>
+      <h3 data-i18n="uc_side_title">"I only code 1-2 hours a day"</h3>
+      <p data-i18n="uc_side_desc">Every minute counts. You can't afford to spend 15 minutes re-explaining the project to AI each session. <code>/start</code> gives it all back in 30 seconds.</p>
     </div>
     <div class="uc-card">
-      <div class="uc-label">Small team</div>
-      <h3>"We step on each other's toes"</h3>
-      <p>Team mode shows who's working on what. Personal memory is gitignored, shared decisions use merge=union. No merge conflicts on state files.</p>
+      <div class="uc-label" data-i18n="uc_team_label">Small team</div>
+      <h3 data-i18n="uc_team_title">"We step on each other's toes"</h3>
+      <p data-i18n="uc_team_desc">Team mode shows who's working on what. Personal memory is gitignored, shared decisions use merge=union. No merge conflicts on state files.</p>
     </div>
     <div class="uc-card">
-      <div class="uc-label">Open source</div>
-      <h3>"I come back to this project once a month"</h3>
-      <p>Context doesn't expire. Open the project, run <code>/start</code>, and AI knows where you left off — even if it was weeks ago.</p>
+      <div class="uc-label" data-i18n="uc_oss_label">Open source</div>
+      <h3 data-i18n="uc_oss_title">"I come back to this project once a month"</h3>
+      <p data-i18n="uc_oss_desc">Context doesn't expire. Open the project, run <code>/start</code>, and AI knows where you left off — even if it was weeks ago.</p>
     </div>
     <div class="uc-card">
-      <div class="uc-label">Learning</div>
-      <h3>"I follow tutorials and lose track"</h3>
-      <p>AI remembers which tutorial step you're on, what worked, what didn't. Your learning progress becomes part of the project context.</p>
+      <div class="uc-label" data-i18n="uc_learn_label">Learning</div>
+      <h3 data-i18n="uc_learn_title">"I follow tutorials and lose track"</h3>
+      <p data-i18n="uc_learn_desc">AI remembers which tutorial step you're on, what worked, what didn't. Your learning progress becomes part of the project context.</p>
     </div>
   </div>
 </section>
 
 <!-- FAQ -->
 <section class="faq wrap" id="faq">
-  <h2>Common questions</h2>
+  <h2 data-i18n="faq_title">Common questions</h2>
   <div class="faq-list">
     <details>
-      <summary>How is this different from Claude Code's built-in memory?</summary>
-      <div class="answer">Claude Code memory (<code>.claude/memory/</code>) stores user preferences and general background &mdash; like "I prefer TypeScript" or "use conventional commits". This kit stores <em>project state</em>: what's done, what's broken, what was decided and why, what's next. They complement each other. Built-in memory is about <em>who you are</em>; this kit is about <em>where the project is</em>.</div>
+      <summary data-i18n="faq_q1_q">How is this different from Claude Code's built-in memory?</summary>
+      <div class="answer" data-i18n="faq_q1_a">Claude Code memory (<code>.claude/memory/</code>) stores user preferences and general background &mdash; like "I prefer TypeScript" or "use conventional commits". This kit stores <em>project state</em>: what's done, what's broken, what was decided and why, what's next. They complement each other. Built-in memory is about <em>who you are</em>; this kit is about <em>where the project is</em>.</div>
     </details>
     <details>
-      <summary>Does it pollute my git repo?</summary>
-      <div class="answer"><code>CLAUDE.md</code>, <code>DECISIONS.md</code>, <code>TASKS.md</code>, and <code>ARCHITECTURE.md</code> are committed &mdash; they're useful documentation for humans too. In team mode, personal <code>memory/</code> files are gitignored. Everything is plain markdown, no binary or generated code.</div>
+      <summary data-i18n="faq_q2_q">Does it pollute my git repo?</summary>
+      <div class="answer" data-i18n="faq_q2_a"><code>CLAUDE.md</code>, <code>DECISIONS.md</code>, <code>TASKS.md</code>, and <code>ARCHITECTURE.md</code> are committed &mdash; they're useful documentation for humans too. In team mode, personal <code>memory/</code> files are gitignored. Everything is plain markdown, no binary or generated code.</div>
     </details>
     <details>
-      <summary>Can I use it with Cursor or Codex?</summary>
-      <div class="answer">Yes. The core idea is tool-agnostic: project facts live in files. <code>AGENTS.md</code> tells Codex how to read them. Cursor uses <code>.cursor/rules</code>. The kit generates all of these. See the <a href="#tools">cross-tool section</a> below.</div>
+      <summary data-i18n="faq_q3_q">Can I use it with Cursor or Codex?</summary>
+      <div class="answer" data-i18n="faq_q3_a">Yes. The core idea is tool-agnostic: project facts live in files. <code>AGENTS.md</code> tells Codex how to read them. Cursor uses <code>.cursor/rules</code>. The kit generates all of these. See the <a href="#tools">cross-tool section</a> below.</div>
     </details>
     <details>
-      <summary>Can I customize the templates?</summary>
-      <div class="answer">Everything is markdown. Edit any file, add sections, remove what you don't need. The templates are starting points, not constraints. Commands under <code>.claude/commands/</code> are plain markdown too &mdash; change the steps to match your workflow.</div>
+      <summary data-i18n="faq_q4_q">Can I customize the templates?</summary>
+      <div class="answer" data-i18n="faq_q4_a">Everything is markdown. Edit any file, add sections, remove what you don't need. The templates are starting points, not constraints. Commands under <code>.claude/commands/</code> are plain markdown too &mdash; change the steps to match your workflow.</div>
     </details>
     <details>
-      <summary>Solo or team mode?</summary>
-      <div class="answer">Start with solo (default). If you later need team collaboration, re-run <code>install.sh --team --user yourname</code>. It migrates your existing memory into a personal directory and creates the shared structure. No data loss.</div>
+      <summary data-i18n="faq_q5_q">Solo or team mode?</summary>
+      <div class="answer" data-i18n="faq_q5_a">Start with solo (default). If you later need team collaboration, re-run <code>install.sh --team --user yourname</code>. It migrates your existing memory into a personal directory and creates the shared structure. No data loss.</div>
     </details>
     <details>
-      <summary>Can I use it on an existing project?</summary>
-      <div class="answer">Yes. <code>/init-context</code> analyzes your existing codebase and generates context files. If you already have <code>CLAUDE.md</code>, it reads and preserves it, only adding missing sections.</div>
+      <summary data-i18n="faq_q6_q">Can I use it on an existing project?</summary>
+      <div class="answer" data-i18n="faq_q6_a">Yes. <code>/init-context</code> analyzes your existing codebase and generates context files. If you already have <code>CLAUDE.md</code>, it reads and preserves it, only adding missing sections.</div>
     </details>
   </div>
 </section>
 
 <!-- How -->
 <section class="how wrap" id="how">
-  <h2>Try it in 60 seconds.</h2>
+  <h2 data-i18n="how_title">Try it in 60 seconds.</h2>
   <div class="how-steps">
     <div class="how-step">
-      <div class="how-step-bar">Install <span class="step-num">step 1</span></div>
-      <pre><span class="comment"># In your project root</span>
+      <div class="how-step-bar"><span data-i18n="how_step1_bar">Install</span> <span class="step-num">step 1</span></div>
+      <pre data-i18n="how_step1_pre"><span class="comment"># In your project root</span>
 git clone &lt;kit-url&gt; /tmp/cek
 /tmp/cek/install.sh</pre>
     </div>
     <div class="how-step">
-      <div class="how-step-bar">Initialize <span class="step-num">step 2</span></div>
-      <pre><span class="comment"># In Claude Code</span>
+      <div class="how-step-bar"><span data-i18n="how_step2_bar">Initialize</span> <span class="step-num">step 2</span></div>
+      <pre data-i18n="how_step2_pre"><span class="comment"># In Claude Code</span>
 /init-context
 
 <span class="comment"># AI analyzes your project,
@@ -330,8 +340,8 @@ git clone &lt;kit-url&gt; /tmp/cek
 git add . &amp;&amp; git commit</pre>
     </div>
     <div class="how-step">
-      <div class="how-step-bar">Daily loop <span class="step-num">step 3</span></div>
-      <pre><span class="comment"># Start of day</span>
+      <div class="how-step-bar"><span data-i18n="how_step3_bar">Daily loop</span> <span class="step-num">step 3</span></div>
+      <pre data-i18n="how_step3_pre"><span class="comment"># Start of day</span>
 /start
 <span class="comment"># AI reads context, ready to work</span>
 
@@ -346,8 +356,8 @@ git add . &amp;&amp; git commit</pre>
 
 <!-- Cross-tool -->
 <section class="tools wrap" id="tools">
-  <h2>Works with your favorite tool.</h2>
-  <p>Same files. Different entry points.</p>
+  <h2 data-i18n="tools_title">Works with your favorite tool.</h2>
+  <p data-i18n="tools_desc">Same files. Different entry points.</p>
   <div class="tools-row">
     <div class="tool-item">
       <div class="tool-name">Claude Code</div>
@@ -370,12 +380,12 @@ git add . &amp;&amp; git commit</pre>
 
 <!-- Social Proof -->
 <section class="social wrap">
-  <p>Used by developers who are tired of re-explaining their projects.</p>
+  <p data-i18n="social_desc">Used by developers who are tired of re-explaining their projects.</p>
   <div>
     <span class="star-count">&#9733;</span>
-    <span class="star-label"> stars on GitHub</span>
+    <span class="star-label" data-i18n="social_stars"> stars on GitHub</span>
   </div>
-  <a href="https://github.com/your-repo/context-engineering-kit">Star on GitHub</a>
+  <a href="https://github.com/Vincent-chao-lang/context-engineering-kit" data-i18n="social_cta">Star on GitHub</a>
 </section>
 
 <!-- Footer -->
@@ -383,12 +393,198 @@ git add . &amp;&amp; git commit</pre>
 <div class="wrap">
   <p>Context Engineering Kit &middot; v0.3.0</p>
   <p style="margin-top:6px">
-    <a href="https://github.com/your-repo/context-engineering-kit">GitHub</a>
-    <a href="../docs/usage-guide.md">Docs</a>
-    <a href="../CHANGELOG.md">Changelog</a>
+    <a href="https://github.com/Vincent-chao-lang/context-engineering-kit">GitHub</a>
+    <a href="https://github.com/Vincent-chao-lang/context-engineering-kit/blob/main/docs/usage-guide.md" data-i18n="footer_docs">Docs</a>
+    <a href="https://github.com/Vincent-chao-lang/context-engineering-kit/blob/main/CHANGELOG.md" data-i18n="footer_changelog">Changelog</a>
   </p>
 </div>
 </footer>
+
+<script>
+const I18N = {
+  en: {
+    nav_why: "Why",
+    nav_what: "What",
+    nav_how: "How",
+    hero_title: 'Your AI should remember<br>what you built yesterday.',
+    hero_desc: 'Context Engineering Kit stores project state in files. AI reads them every session. No more cold starts.',
+    hero_hint: 'Works with Claude Code. Adapts to Codex, Cursor, Windsurf.',
+    compare_title: 'The difference is 15 minutes per session.',
+    compare_before_title: 'Before <span class="tag tag-bad">every session</span>',
+    compare_before_pre: '<span class="line-bad">You:</span> This project is a VAT system using Tauri...\n<span class="line-bad">You:</span> We use Zhipu API for OCR and translation...\n<span class="line-bad">You:</span> Last week we decided against SQLite...\n<span class="line-bad">You:</span> There\'s a bug in PDF parsing...\n<span class="line-bad">You:</span> We\'re working on batch recognition...\n<span class="line-bad">AI:</span> Got it. What do you need?\n<span class="line-bad">You:</span> (finally start working, 15 min later)',
+    compare_after_title: 'After <span class="tag tag-good">/start</span>',
+    compare_after_pre: '<span class="line-good">AI:</span> Read CLAUDE.md, DECISIONS.md, memory/...\n<span class="line-good">AI:</span>\n<span class="line-good">AI:</span> Phase: MVP development\n<span class="line-good">AI:</span> Last: batch invoice recognition (30 min ago)\n<span class="line-good">AI:</span> Bug:  PDF parsing garbled on some files\n<span class="line-good">AI:</span> Next: fix PDF issue, then add progress bar\n<span class="line-good">AI:</span>\n<span class="line-good">AI:</span> Ready. What should I work on?',
+    values_title: "It's not just about saving time.",
+    values_desc: "The real cost of AI amnesia isn't minutes. It's wrong decisions, repeated bugs, and broken continuity.",
+    val_continuity_title: "Continuity",
+    val_continuity_desc: 'Every session picks up where the last one ended. Progress, blockers, next steps &mdash; all preserved.',
+    val_continuity_pre: '<span class="bad">Before:</span> "What was I doing last Friday?"\n<span class="good">After:</span>  /start reads memory/current_state.md\n         Last: auth refactor (2 days ago)\n         Next: write tests for login flow',
+    val_decision_title: "Decision consistency",
+    val_decision_desc: "Recorded decisions don't get relitigated. AI reads why you rejected a proposal and never suggests it again.",
+    val_decision_pre: '<span class="bad">Before:</span> AI: "Let\'s use MongoDB!"\n         You: "We discussed this last week..."\n<span class="good">After:</span>  You: "Check DECISIONS.md D001"\n         AI: "Right, rejected MongoDB for SQLite."',
+    val_bug_title: "Bug awareness",
+    val_bug_desc: "Known bugs stay visible. AI won't reintroduce a fix or ignore a known issue when writing new code.",
+    val_bug_pre: '<span class="bad">Before:</span> AI fixes bug, next session\n         re-introduces the same broken pattern\n<span class="good">After:</span>  /start shows active bugs\n         AI avoids known-broken patterns\n         /wrap moves fixed bugs to resolved',
+    what_title: "Three files. Three commands.",
+    what_desc: "The kit creates a file structure that acts as AI's memory. You run commands to read and write it. That's it.",
+    what_1_title: "CLAUDE.md &mdash; the onboarding doc",
+    what_1_desc: 'One file AI reads every session. Project goals, tech stack, commands, current focus. Under 100 lines. AI goes from zero to productive in 30 seconds.',
+    what_2_title: "DECISIONS.md &mdash; the anti-reversion mechanism",
+    what_2_desc: 'Records "why we chose X" and "why we rejected Y". When AI suggests MongoDB again, you say "check D001". It reads the reason and stops.',
+    what_3_title: "memory/ &mdash; the auto-maintained state",
+    what_3_desc: 'Current progress, active bugs, daily log, lessons learned. Updated by <code>/wrap</code> at end of each session. Next session picks up where you left off.',
+    uc_title: "Is this for you?",
+    uc_desc: "If any of these sound familiar, yes.",
+    uc_side_label: "Side project",
+    uc_side_title: '"I only code 1-2 hours a day"',
+    uc_side_desc: 'Every minute counts. You can\'t afford to spend 15 minutes re-explaining the project to AI each session. <code>/start</code> gives it all back in 30 seconds.',
+    uc_team_label: "Small team",
+    uc_team_title: '"We step on each other\'s toes"',
+    uc_team_desc: "Team mode shows who's working on what. Personal memory is gitignored, shared decisions use merge=union. No merge conflicts on state files.",
+    uc_oss_label: "Open source",
+    uc_oss_title: '"I come back to this project once a month"',
+    uc_oss_desc: 'Context doesn\'t expire. Open the project, run <code>/start</code>, and AI knows where you left off &mdash; even if it was weeks ago.',
+    uc_learn_label: "Learning",
+    uc_learn_title: '"I follow tutorials and lose track"',
+    uc_learn_desc: "AI remembers which tutorial step you're on, what worked, what didn't. Your learning progress becomes part of the project context.",
+    faq_title: "Common questions",
+    faq_q1_q: "How is this different from Claude Code's built-in memory?",
+    faq_q1_a: 'Claude Code memory (<code>.claude/memory/</code>) stores user preferences and general background &mdash; like "I prefer TypeScript" or "use conventional commits". This kit stores <em>project state</em>: what\'s done, what\'s broken, what was decided and why, what\'s next. They complement each other. Built-in memory is about <em>who you are</em>; this kit is about <em>where the project is</em>.',
+    faq_q2_q: "Does it pollute my git repo?",
+    faq_q2_a: '<code>CLAUDE.md</code>, <code>DECISIONS.md</code>, <code>TASKS.md</code>, and <code>ARCHITECTURE.md</code> are committed &mdash; they\'re useful documentation for humans too. In team mode, personal <code>memory/</code> files are gitignored. Everything is plain markdown, no binary or generated code.',
+    faq_q3_q: "Can I use it with Cursor or Codex?",
+    faq_q3_a: 'Yes. The core idea is tool-agnostic: project facts live in files. <code>AGENTS.md</code> tells Codex how to read them. Cursor uses <code>.cursor/rules</code>. The kit generates all of these. See the <a href="#tools">cross-tool section</a> below.',
+    faq_q4_q: "Can I customize the templates?",
+    faq_q4_a: 'Everything is markdown. Edit any file, add sections, remove what you don\'t need. The templates are starting points, not constraints. Commands under <code>.claude/commands/</code> are plain markdown too &mdash; change the steps to match your workflow.',
+    faq_q5_q: "Solo or team mode?",
+    faq_q5_a: 'Start with solo (default). If you later need team collaboration, re-run <code>install.sh --team --user yourname</code>. It migrates your existing memory into a personal directory and creates the shared structure. No data loss.',
+    faq_q6_q: "Can I use it on an existing project?",
+    faq_q6_a: 'Yes. <code>/init-context</code> analyzes your existing codebase and generates context files. If you already have <code>CLAUDE.md</code>, it reads and preserves it, only adding missing sections.',
+    how_title: "Try it in 60 seconds.",
+    how_step1_bar: "Install",
+    how_step1_pre: '<span class="comment"># In your project root</span>\ngit clone &lt;kit-url&gt; /tmp/cek\n/tmp/cek/install.sh',
+    how_step2_bar: "Initialize",
+    how_step2_pre: '<span class="comment"># In Claude Code</span>\n/init-context\n\n<span class="comment"># AI analyzes your project,\n   generates CLAUDE.md,\n   ARCHITECTURE.md,\n   DECISIONS.md, memory/...</span>\n\n<span class="comment"># Review and commit</span>\ngit add . &amp;&amp; git commit',
+    how_step3_bar: "Daily loop",
+    how_step3_pre: '<span class="comment"># Start of day</span>\n/start\n<span class="comment"># AI reads context, ready to work</span>\n\n<span class="comment"># ... code, commit, code ...</span>\n\n<span class="comment"># End of day</span>\n/wrap\n<span class="comment"># AI updates memory for next time</span>',
+    tools_title: "Works with your favorite tool.",
+    tools_desc: "Same files. Different entry points.",
+    social_desc: "Used by developers who are tired of re-explaining their projects.",
+    social_stars: " stars on GitHub",
+    social_cta: "Star on GitHub",
+    footer_docs: "Docs",
+    footer_changelog: "Changelog",
+    page_title: "Context Engineering Kit",
+    page_desc: "Give AI persistent memory for your project. Files, not chat history."
+  },
+  zh: {
+    nav_why: "为什么",
+    nav_what: "是什么",
+    nav_how: "怎么用",
+    hero_title: "你的 AI 应该记得<br>你昨天写了什么代码。",
+    hero_desc: "Context Engineering Kit 把项目状态存入文件。AI 每次会话自动读取。告别冷启动。",
+    hero_hint: "适配 Claude Code，兼容 Codex、Cursor、Windsurf。",
+    compare_title: "每次会话省下 15 分钟。",
+    compare_before_title: '使用前 <span class="tag tag-bad">每次会话</span>',
+    compare_before_pre: '<span class="line-bad">你：</span> 这个项目是一个用 Tauri 做的增值税系统...\n<span class="line-bad">你：</span> 我们用智谱 API 做 OCR 和翻译...\n<span class="line-bad">你：</span> 上周我们决定不用 SQLite...\n<span class="line-bad">你：</span> PDF 解析有个 bug...\n<span class="line-bad">你：</span> 我们正在做批量识别...\n<span class="line-bad">AI：</span> 好的，你需要什么？\n<span class="line-bad">你：</span>（终于开始干活，15 分钟后）',
+    compare_after_title: '使用后 <span class="tag tag-good">/start</span>',
+    compare_after_pre: '<span class="line-good">AI：</span> 读取 CLAUDE.md、DECISIONS.md、memory/...\n<span class="line-good">AI：</span>\n<span class="line-good">AI：</span> 阶段：MVP 开发\n<span class="line-good">AI：</span> 上次：批量发票识别（30 分钟前）\n<span class="line-good">AI：</span> Bug：PDF 解析部分文件乱码\n<span class="line-good">AI：</span> 下一步：修复 PDF 问题，然后加进度条\n<span class="line-good">AI：</span>\n<span class="line-good">AI：</span> 准备好了。需要我做什么？',
+    values_title: "不只是省时间。",
+    values_desc: "AI 失忆的真正代价不是几分钟，而是错误决策、重复 bug 和断裂的连续性。",
+    val_continuity_title: "工作连续性",
+    val_continuity_desc: "每次会话从上次结束的地方继续。进度、阻塞项、下一步 &mdash; 全部保留。",
+    val_continuity_pre: '<span class="bad">使用前：</span> "我上周五在做什么来着？"\n<span class="good">使用后：</span>  /start 读取 memory/current_state.md\n           上次：认证重构（2 天前）\n           下一步：给登录流程写测试',
+    val_decision_title: "决策一致性",
+    val_decision_desc: "已记录的决策不会被反复推翻。AI 读到你否决某方案的原因后，不会再提。",
+    val_decision_pre: '<span class="bad">使用前：</span> AI："我们用 MongoDB 吧！"\n           你："这个上周讨论过了..."\n<span class="good">使用后：</span>  你："查看 DECISIONS.md D001"\n           AI："对，之前否决了 MongoDB，选了 SQLite。"',
+    val_bug_title: "Bug 感知",
+    val_bug_desc: "已知 bug 始终可见。AI 不会重新引入已修复的问题，也不会忽略已知缺陷。",
+    val_bug_pre: '<span class="bad">使用前：</span> AI 修复了 bug，下次会话\n           又引入了同样的错误模式\n<span class="good">使用后：</span>  /start 显示活跃 bug\n           AI 避开已知问题模式\n           /wrap 将已修复 bug 移入已解决',
+    what_title: "三个文件。三个命令。",
+    what_desc: "Kit 创建一套充当 AI 记忆的文件结构。你通过命令读写它。就这么简单。",
+    what_1_title: "CLAUDE.md &mdash; 入职文档",
+    what_1_desc: "AI 每次会话必读的文件。项目目标、技术栈、命令、当前重点。100 行以内。AI 从零到高效只需 30 秒。",
+    what_2_title: "DECISIONS.md &mdash; 防推翻机制",
+    what_2_desc: '记录"为什么选了 X"和"为什么否决了 Y"。当 AI 再次提议用 MongoDB 时，你说"查看 D001"，它读到原因就不再提了。',
+    what_3_title: "memory/ &mdash; 自动维护的状态",
+    what_3_desc: '当前进度、活跃 bug、每日日志、踩坑经验。由 <code>/wrap</code> 在每次会话结束时自动更新。下次会话从你停下的地方继续。',
+    uc_title: "适合你吗？",
+    uc_desc: "以下任一条符合，就是。",
+    uc_side_label: "个人项目",
+    uc_side_title: '"我每天只写 1-2 小时代码"',
+    uc_side_desc: '每一分钟都很珍贵。你浪费不起每次会话花 15 分钟重新解释项目。<code>/start</code> 在 30 秒内恢复全部上下文。',
+    uc_team_label: "小团队",
+    uc_team_title: '"我们经常互相踩脚"',
+    uc_team_desc: "团队模式展示谁在做什么。个人 memory 被 gitignore 排除，共享决策使用 merge=union。状态文件零冲突。",
+    uc_oss_label: "开源项目",
+    uc_oss_title: '"我一个月才回来看一次这个项目"',
+    uc_oss_desc: '上下文不会过期。打开项目，运行 <code>/start</code>，AI 就知道你上次做到哪了 &mdash; 哪怕是几周前。',
+    uc_learn_label: "学习项目",
+    uc_learn_title: '"我跟着教程走，但总忘了学到哪"',
+    uc_learn_desc: "AI 记得你在教程的哪一步，什么有效、什么没用。你的学习进度成为项目上下文的一部分。",
+    faq_title: "常见问题",
+    faq_q1_q: "这和 Claude Code 内置的 memory 有什么区别？",
+    faq_q1_a: 'Claude Code 内置 memory（<code>.claude/memory/</code>）存储用户偏好和通用背景 &mdash; 比如"我偏好 TypeScript"或"使用约定式提交"。本 Kit 存储的是<em>项目状态</em>：完成了什么、什么坏了、做了什么决策及原因、下一步是什么。两者互补。内置 memory 记录的是<em>你是谁</em>；本 Kit 记录的是<em>项目进展到哪了</em>。',
+    faq_q2_q: "会污染我的 git 仓库吗？",
+    faq_q2_a: '<code>CLAUDE.md</code>、<code>DECISIONS.md</code>、<code>TASKS.md</code> 和 <code>ARCHITECTURE.md</code> 会被提交 &mdash; 它们对人类也是有用的文档。团队模式下，个人 <code>memory/</code> 文件被 gitignore 排除。全部是纯 markdown，没有二进制或生成代码。',
+    faq_q3_q: "可以配合 Cursor 或 Codex 使用吗？",
+    faq_q3_a: '可以。核心理念与工具无关：项目事实存放在文件中。<code>AGENTS.md</code> 告诉 Codex 如何读取它们。Cursor 使用 <code>.cursor/rules</code>。Kit 会生成所有这些文件。参见下方<a href="#tools">跨工具适配</a>。',
+    faq_q4_q: "模板可以自定义吗？",
+    faq_q4_a: '所有内容都是 markdown。编辑任何文件、添加章节、删除不需要的内容。模板是起点，不是约束。<code>.claude/commands/</code> 下的命令也是纯 markdown &mdash; 修改步骤以匹配你的工作流。',
+    faq_q5_q: "用 Solo 还是 Team 模式？",
+    faq_q5_a: '先用 solo（默认）。如果后来需要团队协作，重新运行 <code>install.sh --team --user 你的名字</code>。它会将已有的 memory 迁移到个人目录，并创建共享结构。数据不会丢失。',
+    faq_q6_q: "可以用于已有项目吗？",
+    faq_q6_a: '可以。<code>/init-context</code> 会分析你现有的代码库并生成上下文文件。如果已有 <code>CLAUDE.md</code>，它会读取并保留原有内容，只补充缺失的部分。',
+    how_title: "60 秒上手。",
+    how_step1_bar: "安装",
+    how_step1_pre: '<span class="comment"># 在项目根目录</span>\ngit clone &lt;kit-url&gt; /tmp/cek\n/tmp/cek/install.sh',
+    how_step2_bar: "初始化",
+    how_step2_pre: '<span class="comment"># 在 Claude Code 中</span>\n/init-context\n\n<span class="comment"># AI 分析你的项目，\n   生成 CLAUDE.md、\n   ARCHITECTURE.md、\n   DECISIONS.md、memory/...</span>\n\n<span class="comment"># 检查并提交</span>\ngit add . &amp;&amp; git commit',
+    how_step3_bar: "日常循环",
+    how_step3_pre: '<span class="comment"># 开始工作</span>\n/start\n<span class="comment"># AI 读取上下文，准备就绪</span>\n\n<span class="comment"># ... 编码、提交、编码 ...</span>\n\n<span class="comment"># 结束工作</span>\n/wrap\n<span class="comment"># AI 更新 memory，为下次做准备</span>',
+    tools_title: "适配你喜欢的工具。",
+    tools_desc: "同样的文件，不同的入口。",
+    social_desc: "被厌倦了反复解释项目的开发者使用。",
+    social_stars: " GitHub stars",
+    social_cta: "在 GitHub 上 Star",
+    footer_docs: "文档",
+    footer_changelog: "更新日志",
+    page_title: "Context Engineering Kit",
+    page_desc: "给 AI 持久的项目记忆。用文件，不用聊天历史。"
+  }
+};
+
+function setLang(lang) {
+  const dict = I18N[lang];
+  if (!dict) return;
+
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  document.title = dict.page_title;
+  document.querySelector('meta[name="description"]').content = dict.page_desc;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) {
+      el.innerHTML = dict[key];
+    }
+  });
+
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+
+  try { localStorage.setItem('cek-lang', lang); } catch(e) {}
+}
+
+(function() {
+  let saved = 'en';
+  try { saved = localStorage.getItem('cek-lang') || 'en'; } catch(e) {}
+  const browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+  if (!localStorage.getItem('cek-lang') && browserLang.startsWith('zh')) {
+    saved = 'zh';
+  }
+  if (saved === 'zh' || saved === 'en') setLang(saved);
+})();
+</script>
 
 </body>
 </html>
