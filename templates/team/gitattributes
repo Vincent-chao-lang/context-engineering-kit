@@ -1,0 +1,4 @@
+# Context Engineering Kit - merge strategies for team collaboration
+DECISIONS.md merge=union
+memory/TEAM.md merge=union
+memory/shared/current_state.md merge=union

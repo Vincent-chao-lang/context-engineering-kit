@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Context Engineering Kit</title>
+<meta name="description" content="Give AI persistent memory for your project. Files, not chat history.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#09090b;--surface:#111114;--surface2:#18181b;--border:#27272a;
+  --text:#fafafa;--text2:#a1a1aa;--text3:#71717a;
+  --accent:#8b5cf6;--accent2:#a78bfa;
+  --green:#34d399;--red:#f87171;
+  --mono:'SF Mono','Menlo','Consolas',monospace;
+  --sans:system-ui,-apple-system,sans-serif;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;max-width:100vw}
+a{color:var(--accent2);text-decoration:none}
+code,pre{font-family:var(--mono)}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px;min-width:0;width:100%}
+
+/* Nav */
+nav{padding:20px 0;display:flex;justify-content:space-between;align-items:center;font-size:.9rem;max-width:100%;overflow:hidden}
+nav .logo{font-weight:700;font-size:3rem;color:var(--text)}
+nav .logo span{color:var(--accent2)}
+nav a{color:var(--text2);margin-left:24px;font-size:.88rem}
+nav a:hover{color:var(--text)}
+
+/* Hero */
+.hero{padding:120px 0 80px;text-align:center}
+.hero h1{font-size:2.6rem;font-weight:700;line-height:1.25;margin-bottom:16px;letter-spacing:-.02em}
+.hero p{font-size:1.1rem;color:var(--text2);max-width:520px;margin:0 auto 40px}
+.hero-install{display:inline-block;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 28px;font-family:var(--mono);font-size:.92rem;color:var(--green);cursor:pointer;transition:border-color .2s;user-select:all;max-width:100%;overflow-x:auto;white-space:nowrap}
+.hero-install:hover{border-color:var(--accent)}
+.hero-install .dollar{color:var(--text3)}
+.hero-hint{margin-top:12px;font-size:.8rem;color:var(--text3)}
+
+/* Compare */
+.compare{padding:80px 0}
+.compare h2{font-size:1.5rem;font-weight:600;margin-bottom:40px;text-align:center}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;min-width:0}
+@media(max-width:700px){.compare-grid{grid-template-columns:1fr}}
+.compare-col{border-radius:12px;padding:24px;border:1px solid var(--border);min-width:0;overflow:hidden}
+.compare-col.before{background:var(--surface);border-color:#3f1f1f}
+.compare-col.after{background:var(--surface);border-color:#1f3f2a}
+.compare-col h3{font-size:.95rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.compare-col h3 .tag{font-size:.72rem;padding:2px 8px;border-radius:4px;font-weight:500}
+.tag-bad{background:rgba(248,113,113,.1);color:var(--red)}
+.tag-good{background:rgba(52,211,153,.1);color:var(--green)}
+.compare-col pre{background:var(--bg);border:none;border-radius:8px;padding:16px;font-size:.82rem;line-height:1.7;color:var(--text2);white-space:pre;overflow-x:auto;margin:0}
+.compare-col .line-bad{color:var(--red);opacity:.7}
+.compare-col .line-good{color:var(--green)}
+
+/* Value */
+.values{padding:80px 0}
+.values h2{font-size:1.5rem;font-weight:600;margin-bottom:12px;text-align:center}
+.values>p{color:var(--text2);text-align:center;max-width:560px;margin:0 auto 48px}
+.val-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;min-width:0}
+@media(max-width:700px){.val-grid{grid-template-columns:1fr}}
+.val-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 24px;min-width:0;overflow:hidden}
+.val-card .val-icon{font-size:1.6rem;margin-bottom:12px;display:block}
+.val-card h3{font-size:1rem;font-weight:600;margin-bottom:8px}
+.val-card p{color:var(--text2);font-size:.88rem;line-height:1.7;margin-bottom:16px}
+.val-card pre{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:.78rem;line-height:1.6;color:var(--text2);white-space:pre;overflow-x:auto;margin:0}
+.val-card .bad{color:var(--red);opacity:.7}
+.val-card .good{color:var(--green)}
+
+/* What */
+.what{padding:80px 0}
+.what h2{font-size:1.5rem;font-weight:600;margin-bottom:12px}
+.what>p{color:var(--text2);max-width:600px;margin-bottom:40px}
+.what-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:16px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;min-width:0;overflow:hidden}
+.what-card .num{width:40px;height:40px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:1rem;font-weight:700;color:var(--accent2)}
+.what-card h3{font-size:1rem;font-weight:600;margin-bottom:4px}
+.what-card p{color:var(--text2);font-size:.9rem;line-height:1.6}
+
+/* Use Cases */
+.usecases{padding:80px 0}
+.usecases h2{font-size:1.5rem;font-weight:600;margin-bottom:12px}
+.usecases>p{color:var(--text2);max-width:600px;margin-bottom:40px}
+.uc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.uc-grid{grid-template-columns:1fr}}
+.uc-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;transition:border-color .2s}
+.uc-card:hover{border-color:var(--accent)}
+.uc-card h3{font-size:.95rem;font-weight:600;margin-bottom:6px}
+.uc-card p{color:var(--text2);font-size:.88rem;line-height:1.6}
+.uc-card .uc-label{font-size:.72rem;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:600}
+
+/* FAQ */
+.faq{padding:80px 0}
+.faq h2{font-size:1.5rem;font-weight:600;margin-bottom:40px;text-align:center}
+.faq-list{max-width:700px;margin:0 auto}
+details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--surface);overflow:hidden;max-width:100%}
+details[open]{border-color:var(--accent2)}
+summary{padding:16px 20px;cursor:pointer;font-weight:500;font-size:.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center;user-select:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';font-family:var(--mono);font-size:1.1rem;color:var(--text3);transition:transform .2s}
+details[open] summary::after{content:'-';color:var(--accent2)}
+details .answer{padding:0 20px 16px;color:var(--text2);font-size:.9rem;line-height:1.7}
+details .answer code{font-size:.85em}
+
+/* How */
+.how{padding:80px 0}
+.how h2{font-size:1.5rem;font-weight:600;margin-bottom:40px;text-align:center}
+.how-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;min-width:0}
+@media(max-width:700px){.how-steps{grid-template-columns:1fr}}
+.how-step{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;min-width:0}
+.how-step-bar{padding:12px 20px;border-bottom:1px solid var(--border);font-size:.85rem;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.how-step-bar .step-num{font-family:var(--mono);color:var(--accent2);font-size:.8rem}
+.how-step pre{background:transparent;border:none;padding:20px;margin:0;font-size:.82rem;line-height:1.7;color:var(--text2);white-space:pre;overflow-x:auto}
+.how-step .comment{color:var(--text3)}
+
+/* Cross-tool */
+.tools{padding:80px 0;text-align:center}
+.tools h2{font-size:1.5rem;font-weight:600;margin-bottom:12px}
+.tools>p{color:var(--text2);margin-bottom:40px;font-size:.95rem}
+.tools-row{display:flex;justify-content:center;gap:32px;flex-wrap:wrap}
+.tool-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 28px;min-width:160px;transition:border-color .2s}
+.tool-item:hover{border-color:var(--accent)}
+.tool-item .tool-name{font-weight:600;font-size:.95rem;margin-bottom:4px}
+.tool-item .tool-entry{font-family:var(--mono);font-size:.8rem;color:var(--text3)}
+
+/* Social */
+.social{padding:60px 0;text-align:center;border-top:1px solid var(--border)}
+.social p{color:var(--text2);font-size:.95rem;margin-bottom:8px}
+.social .star-count{font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--accent2)}
+.social .star-label{font-size:.82rem;color:var(--text3)}
+.social a{margin-top:16px;display:inline-block;padding:10px 24px;border-radius:8px;border:1px solid var(--border);font-size:.9rem;color:var(--text2);transition:all .2s}
+.social a:hover{border-color:var(--accent2);color:var(--accent2);text-decoration:none}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;font-size:.82rem;color:var(--text3)}
+footer a{margin:0 10px}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="wrap">
+  <div class="logo"><span>Context</span> Engineering Kit</div>
+  <div>
+    <a href="#value">Why</a>
+    <a href="#what">What</a>
+    <a href="#how">How</a>
+    <a href="https://github.com/your-repo/context-engineering-kit">GitHub</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero wrap">
+  <h1>Your AI should remember<br>what you built yesterday.</h1>
+  <p>Context Engineering Kit stores project state in files. AI reads them every session. No more cold starts.</p>
+  <div class="hero-install"><span class="dollar">$ </span>./install.sh &amp;&amp; claude "/init-context"</div>
+  <div class="hero-hint">Works with Claude Code. Adapts to Codex, Cursor, Windsurf.</div>
+</section>
+
+<!-- Before/After -->
+<section class="compare wrap" id="value">
+  <h2>The difference is 15 minutes per session.</h2>
+  <div class="compare-grid">
+    <div class="compare-col before">
+      <h3>Before <span class="tag tag-bad">every session</span></h3>
+      <pre><span class="line-bad">You:</span> This project is a VAT system using Tauri...
+<span class="line-bad">You:</span> We use Zhipu API for OCR and translation...
+<span class="line-bad">You:</span> Last week we decided against SQLite...
+<span class="line-bad">You:</span> There's a bug in PDF parsing...
+<span class="line-bad">You:</span> We're working on batch recognition...
+<span class="line-bad">AI:</span> Got it. What do you need?
+<span class="line-bad">You:</span> (finally start working, 15 min later)</pre>
+    </div>
+    <div class="compare-col after">
+      <h3>After <span class="tag tag-good">/start</span></h3>
+      <pre><span class="line-good">AI:</span> Read CLAUDE.md, DECISIONS.md, memory/...
+<span class="line-good">AI:</span>
+<span class="line-good">AI:</span> Phase: MVP development
+<span class="line-good">AI:</span> Last: batch invoice recognition (30 min ago)
+<span class="line-good">AI:</span> Bug:  PDF parsing garbled on some files
+<span class="line-good">AI:</span> Next: fix PDF issue, then add progress bar
+<span class="line-good">AI:</span>
+<span class="line-good">AI:</span> Ready. What should I work on?</pre>
+    </div>
+  </div>
+</section>
+
+<!-- Value Dimensions -->
+<section class="values wrap">
+  <h2>It's not just about saving time.</h2>
+  <p>The real cost of AI amnesia isn't minutes. It's wrong decisions, repeated bugs, and broken continuity.</p>
+  <div class="val-grid">
+    <div class="val-card">
+      <span class="val-icon">&#9201;</span>
+      <h3>Continuity</h3>
+      <p>Every session picks up where the last one ended. Progress, blockers, next steps &mdash; all preserved.</p>
+      <pre><span class="bad">Before:</span> "What was I doing last Friday?"
+<span class="good">After:</span>  /start reads memory/current_state.md
+         Last: auth refactor (2 days ago)
+         Next: write tests for login flow</pre>
+    </div>
+    <div class="val-card">
+      <span class="val-icon">&#9879;</span>
+      <h3>Decision consistency</h3>
+      <p>Recorded decisions don't get relitigated. AI reads why you rejected a proposal and never suggests it again.</p>
+      <pre><span class="bad">Before:</span> AI: "Let's use MongoDB!"
+         You: "We discussed this last week..."
+<span class="good">After:</span>  You: "Check DECISIONS.md D001"
+         AI: "Right, rejected MongoDB for SQLite."</pre>
+    </div>
+    <div class="val-card">
+      <span class="val-icon">&#128737;</span>
+      <h3>Bug awareness</h3>
+      <p>Known bugs stay visible. AI won't reintroduce a fix or ignore a known issue when writing new code.</p>
+      <pre><span class="bad">Before:</span> AI fixes bug, next session
+         re-introduces the same broken pattern
+<span class="good">After:</span>  /start shows active bugs
+         AI avoids known-broken patterns
+         /wrap moves fixed bugs to resolved</pre>
+    </div>
+  </div>
+</section>
+
+<!-- What -->
+<section class="what wrap" id="what">
+  <h2>Three files. Three commands.</h2>
+  <p>The kit creates a file structure that acts as AI's memory. You run commands to read and write it. That's it.</p>
+  <div class="what-card">
+    <div class="num">1</div>
+    <div>
+      <h3>CLAUDE.md — the onboarding doc</h3>
+      <p>One file AI reads every session. Project goals, tech stack, commands, current focus. Under 100 lines. AI goes from zero to productive in 30 seconds.</p>
+    </div>
+  </div>
+  <div class="what-card">
+    <div class="num">2</div>
+    <div>
+      <h3>DECISIONS.md — the anti-reversion mechanism</h3>
+      <p>Records "why we chose X" and "why we rejected Y". When AI suggests MongoDB again, you say "check D001". It reads the reason and stops.</p>
+    </div>
+  </div>
+  <div class="what-card">
+    <div class="num">3</div>
+    <div>
+      <h3>memory/ — the auto-maintained state</h3>
+      <p>Current progress, active bugs, daily log, lessons learned. Updated by <code>/wrap</code> at end of each session. Next session picks up where you left off.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Use Cases -->
+<section class="usecases wrap" id="usecases">
+  <h2>Is this for you?</h2>
+  <p>If any of these sound familiar, yes.</p>
+  <div class="uc-grid">
+    <div class="uc-card">
+      <div class="uc-label">Side project</div>
+      <h3>"I only code 1-2 hours a day"</h3>
+      <p>Every minute counts. You can't afford to spend 15 minutes re-explaining the project to AI each session. <code>/start</code> gives it all back in 30 seconds.</p>
+    </div>
+    <div class="uc-card">
+      <div class="uc-label">Small team</div>
+      <h3>"We step on each other's toes"</h3>
+      <p>Team mode shows who's working on what. Personal memory is gitignored, shared decisions use merge=union. No merge conflicts on state files.</p>
+    </div>
+    <div class="uc-card">
+      <div class="uc-label">Open source</div>
+      <h3>"I come back to this project once a month"</h3>
+      <p>Context doesn't expire. Open the project, run <code>/start</code>, and AI knows where you left off — even if it was weeks ago.</p>
+    </div>
+    <div class="uc-card">
+      <div class="uc-label">Learning</div>
+      <h3>"I follow tutorials and lose track"</h3>
+      <p>AI remembers which tutorial step you're on, what worked, what didn't. Your learning progress becomes part of the project context.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq wrap" id="faq">
+  <h2>Common questions</h2>
+  <div class="faq-list">
+    <details>
+      <summary>How is this different from Claude Code's built-in memory?</summary>
+      <div class="answer">Claude Code memory (<code>.claude/memory/</code>) stores user preferences and general background &mdash; like "I prefer TypeScript" or "use conventional commits". This kit stores <em>project state</em>: what's done, what's broken, what was decided and why, what's next. They complement each other. Built-in memory is about <em>who you are</em>; this kit is about <em>where the project is</em>.</div>
+    </details>
+    <details>
+      <summary>Does it pollute my git repo?</summary>
+      <div class="answer"><code>CLAUDE.md</code>, <code>DECISIONS.md</code>, <code>TASKS.md</code>, and <code>ARCHITECTURE.md</code> are committed &mdash; they're useful documentation for humans too. In team mode, personal <code>memory/</code> files are gitignored. Everything is plain markdown, no binary or generated code.</div>
+    </details>
+    <details>
+      <summary>Can I use it with Cursor or Codex?</summary>
+      <div class="answer">Yes. The core idea is tool-agnostic: project facts live in files. <code>AGENTS.md</code> tells Codex how to read them. Cursor uses <code>.cursor/rules</code>. The kit generates all of these. See the <a href="#tools">cross-tool section</a> below.</div>
+    </details>
+    <details>
+      <summary>Can I customize the templates?</summary>
+      <div class="answer">Everything is markdown. Edit any file, add sections, remove what you don't need. The templates are starting points, not constraints. Commands under <code>.claude/commands/</code> are plain markdown too &mdash; change the steps to match your workflow.</div>
+    </details>
+    <details>
+      <summary>Solo or team mode?</summary>
+      <div class="answer">Start with solo (default). If you later need team collaboration, re-run <code>install.sh --team --user yourname</code>. It migrates your existing memory into a personal directory and creates the shared structure. No data loss.</div>
+    </details>
+    <details>
+      <summary>Can I use it on an existing project?</summary>
+      <div class="answer">Yes. <code>/init-context</code> analyzes your existing codebase and generates context files. If you already have <code>CLAUDE.md</code>, it reads and preserves it, only adding missing sections.</div>
+    </details>
+  </div>
+</section>
+
+<!-- How -->
+<section class="how wrap" id="how">
+  <h2>Try it in 60 seconds.</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-step-bar">Install <span class="step-num">step 1</span></div>
+      <pre><span class="comment"># In your project root</span>
+git clone &lt;kit-url&gt; /tmp/cek
+/tmp/cek/install.sh</pre>
+    </div>
+    <div class="how-step">
+      <div class="how-step-bar">Initialize <span class="step-num">step 2</span></div>
+      <pre><span class="comment"># In Claude Code</span>
+/init-context
+
+<span class="comment"># AI analyzes your project,
+   generates CLAUDE.md,
+   ARCHITECTURE.md,
+   DECISIONS.md, memory/...</span>
+
+<span class="comment"># Review and commit</span>
+git add . &amp;&amp; git commit</pre>
+    </div>
+    <div class="how-step">
+      <div class="how-step-bar">Daily loop <span class="step-num">step 3</span></div>
+      <pre><span class="comment"># Start of day</span>
+/start
+<span class="comment"># AI reads context, ready to work</span>
+
+<span class="comment"># ... code, commit, code ...</span>
+
+<span class="comment"># End of day</span>
+/wrap
+<span class="comment"># AI updates memory for next time</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- Cross-tool -->
+<section class="tools wrap" id="tools">
+  <h2>Works with your favorite tool.</h2>
+  <p>Same files. Different entry points.</p>
+  <div class="tools-row">
+    <div class="tool-item">
+      <div class="tool-name">Claude Code</div>
+      <div class="tool-entry">CLAUDE.md</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Codex</div>
+      <div class="tool-entry">AGENTS.md</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Cursor</div>
+      <div class="tool-entry">.cursor/rules</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Windsurf</div>
+      <div class="tool-entry">rules</div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof -->
+<section class="social wrap">
+  <p>Used by developers who are tired of re-explaining their projects.</p>
+  <div>
+    <span class="star-count">&#9733;</span>
+    <span class="star-label"> stars on GitHub</span>
+  </div>
+  <a href="https://github.com/your-repo/context-engineering-kit">Star on GitHub</a>
+</section>
+
+<!-- Footer -->
+<footer>
+<div class="wrap">
+  <p>Context Engineering Kit &middot; v0.3.0</p>
+  <p style="margin-top:6px">
+    <a href="https://github.com/your-repo/context-engineering-kit">GitHub</a>
+    <a href="../docs/usage-guide.md">Docs</a>
+    <a href="../CHANGELOG.md">Changelog</a>
+  </p>
+</div>
+</footer>
+
+</body>
+</html>
