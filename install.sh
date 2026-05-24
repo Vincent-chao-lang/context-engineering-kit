@@ -46,6 +46,40 @@ skipped=()
 log_created() { created+=("$1"); echo -e "  ${GREEN}+${NC} $1"; }
 log_skipped() { skipped+=("$1"); echo -e "  ${YELLOW}·${NC} $1 (已存在，跳过)"; }
 
+write_cek() {
+  local path="$1"
+  local version="$2"
+  local mode="$3"
+  local user="$4"
+  local installed_at
+
+  installed_at="$(date +%Y-%m-%d)"
+  if command -v python3 >/dev/null 2>&1; then
+    python3 - "$path" "$version" "$mode" "$user" "$installed_at" <<'PY'
+import json
+import os
+import sys
+
+path, version, mode, user, installed_at = sys.argv[1:]
+data = {}
+if os.path.exists(path):
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except json.JSONDecodeError:
+        data = {}
+data.update({"version": version, "mode": mode, "user": user})
+data.setdefault("installed_at", installed_at)
+with open(path, "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+    f.write("\n")
+PY
+  else
+    printf '{"version":"%s","mode":"%s","user":"%s","installed_at":"%s"}\n' \
+      "$version" "$mode" "$user" "$installed_at" > "$path"
+  fi
+}
+
 mode_label="solo"
 [ "$CEK_MODE" = "team" ] && mode_label="team (user: $CEK_USER)"
 
@@ -174,14 +208,10 @@ echo -e "${CYAN}[4/4] 元数据与 git 配置${NC}"
 # 写 .cek
 CEK_FILE="$TARGET_DIR/.cek"
 if [ -f "$CEK_FILE" ]; then
-  if command -v sed &>/dev/null; then
-    sed -i.bak "s/\"version\":\"[^\"]*\"/\"version\":\"$KIT_VERSION\"/" "$CEK_FILE" 2>/dev/null && rm -f "$CEK_FILE.bak"
-    sed -i.bak "s/\"mode\":\"[^\"]*\"/\"mode\":\"$CEK_MODE\"/" "$CEK_FILE" 2>/dev/null && rm -f "$CEK_FILE.bak"
-    sed -i.bak "s/\"user\":\"[^\"]*\"/\"user\":\"$CEK_USER\"/" "$CEK_FILE" 2>/dev/null && rm -f "$CEK_FILE.bak"
-  fi
+  write_cek "$CEK_FILE" "$KIT_VERSION" "$CEK_MODE" "$CEK_USER"
   log_created ".cek (updated)"
 else
-  echo "{\"version\":\"$KIT_VERSION\",\"mode\":\"$CEK_MODE\",\"user\":\"$CEK_USER\",\"installed_at\":\"$(date +%Y-%m-%d)\"}" > "$CEK_FILE"
+  write_cek "$CEK_FILE" "$KIT_VERSION" "$CEK_MODE" "$CEK_USER"
   log_created ".cek"
 fi
 

@@ -356,16 +356,16 @@ git commit -m "docs: update project context"
 - `.claude/commands` 是否完整
 - `AGENTS.md` 是否存在
 - 文件是否仍包含占位内容
-- `memory/current_state.md` 是否有更新时间、是否过旧
+- 当前模式对应的 `memory/*/current_state.md` 是否有更新时间、是否过旧
 - `DECISIONS.md` 是否有重复编号
 
 常见结果和处理方式：
 
 ```text
-FAIL: CLAUDE.md is missing
+WARN: CLAUDE.md is missing; run /init-context after install to generate project-specific context
 ```
 
-处理：在 Claude Code 中运行 `/init-context`。
+处理：这是刚安装但尚未初始化项目上下文时的正常提示。在 Claude Code 中运行 `/init-context`。
 
 ```text
 WARN: memory/current_state.md has no parsable last update date
@@ -560,13 +560,13 @@ Kit 使用语义化版本号，存储在 `VERSION` 文件中。每次 `install.s
 
 所有命令通过读取 `.cek` 判断当前安装的版本和模式。
 
-### 10.2 检查是否需要升级
+### 10.2 检查目标项目是否落后于当前本地 kit
 
 ```bash
 /path/to/context-engineering-kit/doctor.sh /path/to/your-project
 ```
 
-`doctor.sh` 会对比项目 `.cek` 中的版本与 kit 的 `VERSION` 文件。如果过期会输出：
+`doctor.sh` 会对比项目 `.cek` 中的版本与当前本地 kit 的 `VERSION` 文件；它不会联网检查远程最新版本。如果目标项目安装版本低于当前本地 kit，会输出：
 
 ```text
 WARN: installed version 0.2.0, latest is 0.3.0 — run upgrade.sh
@@ -590,7 +590,7 @@ WARN: installed version 0.2.0, latest is 0.3.0 — run upgrade.sh
 |----------|----------|------|
 | `.claude/commands/` | **覆盖** | 命令模板很少被用户修改，新版本可能修复了命令逻辑 |
 | 根级模板（AGENTS.md 等） | **跳过** | 已被 `/init-context` 改写为项目内容，覆盖会丢失 |
-| `memory/` | **跳过** | 活跃工作文件，覆盖会丢失状态 |
+| `memory/` | **跳过已有文件，只创建新增模板** | 活跃工作文件不能覆盖，但新版本可能引入新模板 |
 | `prompts/` | **跳过** | 用户可能已按项目风格自定义 |
 | 新增的模板文件 | **创建** | kit 新版本可能引入新模板，只创建不存在的文件 |
 | `.cek` | **更新版本号** | 保留模式、用户等其他字段 |
@@ -978,7 +978,7 @@ Run the health check:
 - `.claude/commands` is complete
 - `AGENTS.md` exists
 - Files still contain placeholder content
-- `memory/current_state.md` has an update timestamp and isn't stale
+- The mode-specific `memory/*/current_state.md` files have update timestamps and are not stale
 - `DECISIONS.md` has no duplicate IDs
 - Kit version is up to date
 - Team mode configuration (if applicable)
@@ -986,10 +986,10 @@ Run the health check:
 Common results and how to handle them:
 
 ```text
-FAIL: CLAUDE.md is missing
+WARN: CLAUDE.md is missing; run /init-context after install to generate project-specific context
 ```
 
-Fix: Run `/init-context` in Claude Code.
+Fix: This is expected after install but before project context initialization. Run `/init-context` in Claude Code.
 
 ```text
 WARN: memory/current_state.md has no parsable last update date
@@ -1184,13 +1184,13 @@ The kit uses semantic versioning stored in the `VERSION` file. Each `install.sh`
 
 All commands read `.cek` to determine the installed version and mode.
 
-### 10.2 Checking for Updates
+### 10.2 Checking Whether a Project Lags Behind the Local Kit
 
 ```bash
 /path/to/context-engineering-kit/doctor.sh /path/to/your-project
 ```
 
-`doctor.sh` compares the version in the project's `.cek` with the kit's `VERSION` file. If outdated:
+`doctor.sh` compares the version in the project's `.cek` with the current local kit's `VERSION` file; it does not check the remote latest version. If the project is behind:
 
 ```text
 WARN: installed version 0.2.0, latest is 0.3.0 — run upgrade.sh

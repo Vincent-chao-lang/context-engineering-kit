@@ -91,16 +91,17 @@ project/
 ## 升级
 
 ```bash
-# 检查是否有新版本
-/path/to/context-engineering-kit/doctor.sh
+# 对比目标项目安装版本与当前本地 kit 版本
+/path/to/context-engineering-kit/doctor.sh /path/to/your-project
 
 # 升级（覆盖 commands，不覆盖项目文件）
-/path/to/context-engineering-kit/upgrade.sh
+/path/to/context-engineering-kit/upgrade.sh /path/to/your-project
 ```
 
 升级策略：
 - `.claude/commands/` — **覆盖**（用户很少改命令模板）
-- 根级模板、`memory/`、`prompts/` — **跳过**（可能已自定义）
+- 根级模板、`prompts/` — **跳过**（可能已自定义）
+- `memory/` — **跳过已有文件，只创建新增模板**
 - 新增文件 — **创建**（kit 新版本引入的新模板）
 - `.cek` — **更新版本号**
 
@@ -110,7 +111,7 @@ project/
 /path/to/context-engineering-kit/doctor.sh /path/to/your-project
 ```
 
-`doctor.sh` 会检查必要文件、Claude Code 命令、`AGENTS.md`、占位内容、`memory/current_state.md` 更新时间、`DECISIONS.md` 重复编号、kit 版本和团队模式配置。
+`doctor.sh` 会检查必要文件、Claude Code 命令、`AGENTS.md`、占位内容、当前模式对应的 `memory/*/current_state.md` 更新时间、`DECISIONS.md` 重复编号、kit 版本和团队模式配置。刚安装但尚未运行 `/init-context` 时，缺少 `CLAUDE.md` 会作为初始化提示输出，不会导致检查失败。
 
 ## 跨工具适配
 
@@ -271,16 +272,17 @@ Key design:
 ## Upgrade
 
 ```bash
-# Check for updates
-/path/to/context-engineering-kit/doctor.sh
+# Compare the target project's installed version with the current local kit
+/path/to/context-engineering-kit/doctor.sh /path/to/your-project
 
 # Upgrade (overwrites commands, preserves project files)
-/path/to/context-engineering-kit/upgrade.sh
+/path/to/context-engineering-kit/upgrade.sh /path/to/your-project
 ```
 
 Upgrade policy:
 - `.claude/commands/` — **overwrite** (rarely edited by users)
-- Root templates, `memory/`, `prompts/` — **skip** (may be customized)
+- Root templates and `prompts/` — **skip** (may be customized)
+- `memory/` — **skip existing files, create new templates only**
 - New files — **create** (templates introduced in new versions)
 - `.cek` — **update version** (preserves mode, user, etc.)
 
@@ -290,7 +292,7 @@ Upgrade policy:
 /path/to/context-engineering-kit/doctor.sh /path/to/your-project
 ```
 
-Checks: required files, Claude Code commands, `AGENTS.md`, placeholder content, `memory/current_state.md` freshness, `DECISIONS.md` duplicate IDs, kit version, and team mode config.
+Checks: required files, Claude Code commands, `AGENTS.md`, placeholder content, mode-specific `memory/*/current_state.md` freshness, `DECISIONS.md` duplicate IDs, kit version, and team mode config. If the project was installed but `/init-context` has not run yet, missing `CLAUDE.md` is reported as an initialization warning rather than a failure.
 
 ## Cross-Tool Compatibility
 

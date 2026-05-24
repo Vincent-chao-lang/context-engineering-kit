@@ -60,6 +60,79 @@ is_placeholder_file() {
   grep -Eq "_（|\\[日期\\]|YYYY-MM-DD|YYYY-MM|\\[决策标题\\]|\\[原因 1\\]" "$path"
 }
 
+cek_get() {
+  local path="$1"
+  local key="$2"
+  local default="${3:-}"
+
+  if [ ! -f "$path" ]; then
+    printf '%s\n' "$default"
+    return
+  fi
+
+  if command -v python3 >/dev/null 2>&1; then
+    python3 - "$path" "$key" "$default" <<'PY'
+import json
+import sys
+
+path, key, default = sys.argv[1:]
+try:
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+except (OSError, json.JSONDecodeError):
+    print(default)
+else:
+    value = data.get(key, default)
+    print(default if value is None else value)
+PY
+  else
+    grep -o "\"$key\":\"[^\"]*\"" "$path" 2>/dev/null | head -1 | cut -d'"' -f4 || printf '%s\n' "$default"
+  fi
+}
+
+check_placeholder() {
+  local rel="$1"
+  local path="$TARGET_DIR/$rel"
+  if [ -f "$path" ]; then
+    if is_placeholder_file "$path"; then
+      warn "$rel still appears to contain placeholder text"
+    else
+      ok "$rel does not look like a raw placeholder"
+    fi
+  fi
+}
+
+check_state_freshness() {
+  local rel="$1"
+  local state_file="$TARGET_DIR/$rel"
+  local last_update
+  local now_epoch
+  local update_epoch
+  local age_days
+
+  if [ ! -f "$state_file" ]; then
+    return
+  fi
+
+  last_update="$(grep -E "_?最后更新: [0-9]{4}-[0-9]{2}-[0-9]{2}" "$state_file" | tail -1 | grep -Eo "[0-9]{4}-[0-9]{2}-[0-9]{2}" || true)"
+  if [ -z "$last_update" ]; then
+    warn "$rel has no parsable last update date"
+  else
+    now_epoch="$(date "+%s")"
+    update_epoch="$(date_to_epoch "$last_update" || true)"
+    if [ -z "${update_epoch:-}" ]; then
+      warn "$rel last update date is not parseable: $last_update"
+    else
+      age_days=$(( (now_epoch - update_epoch) / 86400 ))
+      if [ "$age_days" -gt "$WARN_DAYS" ]; then
+        warn "$rel is $age_days days old; run /wrap after work sessions"
+      else
+        ok "$rel updated $age_days days ago"
+      fi
+    fi
+  fi
+}
+
 # Determine kit directory (look for VERSION relative to this script)
 SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "$0" 2>/dev/null || echo "$0")")" && pwd)"
 KIT_VERSION="$(tr -d '[:space:]' < "$SCRIPT_DIR/VERSION" 2>/dev/null || echo "unknown")"
@@ -73,8 +146,8 @@ CEK_FILE="$TARGET_DIR/.cek"
 CEK_MODE="solo"
 CEK_USER=""
 if [ -f "$CEK_FILE" ]; then
-  CEK_MODE="$(grep -o '"mode":"[^"]*"' "$CEK_FILE" | head -1 | cut -d'"' -f4 || echo "solo")"
-  CEK_USER="$(grep -o '"user":"[^"]*"' "$CEK_FILE" | head -1 | cut -d'"' -f4 || echo "")"
+  CEK_MODE="$(cek_get "$CEK_FILE" "mode" "solo")"
+  CEK_USER="$(cek_get "$CEK_FILE" "user" "")"
   [ -z "$CEK_MODE" ] && CEK_MODE="solo"
 fi
 
@@ -86,7 +159,11 @@ fi
 echo ""
 
 echo "[1/8] Required files"
-exists_file "CLAUDE.md"
+if [ -f "$TARGET_DIR/CLAUDE.md" ]; then
+  ok "CLAUDE.md exists"
+else
+  warn "CLAUDE.md is missing; run /init-context after install to generate project-specific context"
+fi
 exists_file "DECISIONS.md"
 exists_file "TASKS.md"
 if [ "$CEK_MODE" = "team" ]; then
@@ -117,49 +194,30 @@ fi
 echo ""
 
 echo "[4/8] Placeholder content"
-for file in \
-  "CLAUDE.md" \
-  "DECISIONS.md" \
-  "TASKS.md" \
-  "memory/current_state.md" \
-  "prompts/common/coding_rules.md" \
-  "prompts/typescript/style_guide.md" \
-  "prompts/python/style_guide.md"; do
-  path="$TARGET_DIR/$file"
-  if [ -f "$path" ]; then
-    if is_placeholder_file "$path"; then
-      warn "$file still appears to contain placeholder text"
-    else
-      ok "$file does not look like a raw placeholder"
-    fi
+check_placeholder "CLAUDE.md"
+check_placeholder "DECISIONS.md"
+check_placeholder "TASKS.md"
+if [ "$CEK_MODE" = "team" ]; then
+  check_placeholder "memory/shared/current_state.md"
+  if [ -n "$CEK_USER" ]; then
+    check_placeholder "memory/$CEK_USER/current_state.md"
   fi
-done
+else
+  check_placeholder "memory/current_state.md"
+fi
+check_placeholder "prompts/common/coding_rules.md"
+check_placeholder "prompts/typescript/style_guide.md"
+check_placeholder "prompts/python/style_guide.md"
 echo ""
 
-echo "[5/8] memory/current_state.md freshness"
+echo "[5/8] memory current_state freshness"
 if [ "$CEK_MODE" = "team" ]; then
-  state_file="$TARGET_DIR/memory/shared/current_state.md"
-else
-  state_file="$TARGET_DIR/memory/current_state.md"
-fi
-if [ -f "$state_file" ]; then
-  last_update="$(grep -E "_?最后更新: [0-9]{4}-[0-9]{2}-[0-9]{2}" "$state_file" | tail -1 | grep -Eo "[0-9]{4}-[0-9]{2}-[0-9]{2}" || true)"
-  if [ -z "$last_update" ]; then
-    warn "memory/current_state.md has no parsable last update date"
-  else
-    now_epoch="$(date "+%s")"
-    update_epoch="$(date_to_epoch "$last_update" || true)"
-    if [ -z "${update_epoch:-}" ]; then
-      warn "memory/current_state.md last update date is not parseable: $last_update"
-    else
-      age_days=$(( (now_epoch - update_epoch) / 86400 ))
-      if [ "$age_days" -gt "$WARN_DAYS" ]; then
-        warn "memory/current_state.md is $age_days days old; run /wrap after work sessions"
-      else
-        ok "memory/current_state.md updated $age_days days ago"
-      fi
-    fi
+  check_state_freshness "memory/shared/current_state.md"
+  if [ -n "$CEK_USER" ]; then
+    check_state_freshness "memory/$CEK_USER/current_state.md"
   fi
+else
+  check_state_freshness "memory/current_state.md"
 fi
 echo ""
 
@@ -178,7 +236,7 @@ echo ""
 echo ""
 echo "[7/8] Kit version"
 if [ -f "$CEK_FILE" ]; then
-  installed_version="$(grep -o '"version":"[^"]*"' "$CEK_FILE" | head -1 | cut -d'"' -f4 || true)"
+  installed_version="$(cek_get "$CEK_FILE" "version" "")"
   if [ -z "$installed_version" ]; then
     warn ".cek exists but version field not found"
   elif [ "$KIT_VERSION" = "unknown" ]; then
