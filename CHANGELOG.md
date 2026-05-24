@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- README 首屏补充推广定位、适用人群、demo 和反馈重点
+- `docs/release-guide.md` — 轻量 GitHub Release 发布检查清单
+- GitHub issue templates — bug report、usage feedback、feature request
+
 ## 0.3.0 (2026-05-20)
 
 ### Added

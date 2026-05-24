@@ -1,8 +1,16 @@
 # Context Engineering Kit
 
-一套面向 AI 辅助编程的项目上下文管理工具包。适用于 Claude Code，核心思想可迁移到任何 AI 编程工具。
+把 AI 编程里的项目背景、任务、决策和每日状态外置到文件中，减少每次新会话都要重新解释项目的成本。
 
-## 快速开始
+这不是一个重型框架，而是一套轻量的 Context Engineering 实践包：确定性安装、可读模板、少量安全升级能力和基本健康检查。适用于 Claude Code，核心思想可迁移到 Codex、Cursor、Windsurf 等 AI 编程工具。
+
+适合你，如果你经常遇到：
+- AI 新会话忘记项目背景、架构和当前进度
+- 同一个技术决策反复解释，AI 又建议已被否定的方案
+- 长期项目里任务、bug、实验和经验散落在聊天记录里
+- 想给个人项目或小团队建立一套低成本的 AI 协作习惯
+
+## 30 秒快速开始
 
 ```bash
 # Solo 模式（默认）
@@ -51,6 +59,32 @@ your-project/
 `install.sh` 只安装命令和基础模板，不分析项目代码；`/init-context` 会读取现有项目，生成或补齐 `CLAUDE.md`、`ARCHITECTURE.md`、README 等项目专属上下文文件。若项目里已经有 `CLAUDE.md`，`/init-context` 会读取并补充缺失信息，不覆盖已有内容。
 
 完整操作手册见 [docs/usage-guide.md](docs/usage-guide.md)。
+
+## Demo
+
+安装后会先得到确定性的基础结构：
+
+```text
+.claude/commands/
+├── init-context.md
+├── start.md
+└── wrap.md
+
+memory/
+├── current_state.md
+├── bugs.md
+├── experiments.md
+├── lessons_learned.md
+└── daily_log.md
+
+prompts/
+├── common/
+├── typescript/
+├── python/
+└── backend/
+```
+
+然后在 Claude Code 中运行 `/init-context`，AI 会读取当前项目，生成或补齐 `CLAUDE.md`、`ARCHITECTURE.md`、`TASKS.md`、`DECISIONS.md` 等项目专属上下文。之后每天用 `/start` 恢复上下文，用 `/wrap` 写回当天状态。
 
 ## 三个核心命令
 
@@ -124,6 +158,17 @@ project/
 
 详细说明见 [docs/tooling-guide.md](docs/tooling-guide.md)。
 
+## 反馈重点
+
+如果你在真实项目中试用，最有价值的反馈是：
+- `/init-context` 生成的上下文是否真的有用
+- `/start` 是否减少了恢复项目状态的时间
+- `/wrap` 是否愿意每天使用，还是太重
+- 哪些模板太复杂、太空泛或缺少关键字段
+- solo/team 模式是否符合你的工作方式
+
+建议 GitHub topics：`ai-coding`、`claude-code`、`context-engineering`、`developer-tools`、`prompt-engineering`。
+
 ## 每日工作流
 
 ```
@@ -163,7 +208,8 @@ context-engineering-kit/
 └── docs/
     ├── usage-guide.md               使用指南
     ├── context-engineering-guide.md  完整开发指南
-    └── tooling-guide.md              跨工具适配指南
+    ├── tooling-guide.md              跨工具适配指南
+    └── release-guide.md              发布检查清单
 ```
 
 ## 核心理念
@@ -181,9 +227,17 @@ context-engineering-kit/
 
 # Context Engineering Kit (English)
 
-A project context management toolkit for AI-assisted programming. Built for Claude Code, with core concepts portable to any AI coding tool.
+Externalize project background, tasks, decisions, and daily state into files so AI coding sessions do not start from zero every time.
 
-## Quick Start
+This is not a heavy framework. It is a lightweight Context Engineering practice kit: deterministic install, readable templates, a small safe-upgrade path, and basic health checks. Built for Claude Code, with core concepts portable to Codex, Cursor, Windsurf, and other AI coding tools.
+
+Use it if you often run into:
+- New AI sessions forgetting project background, architecture, and current progress
+- Re-explaining the same technical decisions while AI suggests rejected options again
+- Tasks, bugs, experiments, and lessons scattered across chat history
+- A need for a low-cost AI collaboration habit for personal projects or small teams
+
+## 30-Second Quick Start
 
 ```bash
 # Solo mode (default)
@@ -232,6 +286,32 @@ your-project/
 `install.sh` only copies commands and templates without analyzing code. `/init-context` reads the project and generates project-specific files like `CLAUDE.md`, `ARCHITECTURE.md`, etc. If `CLAUDE.md` already exists, it preserves the original content and only adds missing context.
 
 Full guide: [docs/usage-guide.md](docs/usage-guide.md).
+
+## Demo
+
+After installation, you first get a deterministic base structure:
+
+```text
+.claude/commands/
+├── init-context.md
+├── start.md
+└── wrap.md
+
+memory/
+├── current_state.md
+├── bugs.md
+├── experiments.md
+├── lessons_learned.md
+└── daily_log.md
+
+prompts/
+├── common/
+├── typescript/
+├── python/
+└── backend/
+```
+
+Then run `/init-context` in Claude Code. The AI reads the current project and creates or supplements project-specific context such as `CLAUDE.md`, `ARCHITECTURE.md`, `TASKS.md`, and `DECISIONS.md`. After that, use `/start` to restore context and `/wrap` to write back the day's state.
 
 ## Three Core Commands
 
@@ -305,6 +385,17 @@ Checks: required files, Claude Code commands, `AGENTS.md`, placeholder content, 
 
 Details: [docs/tooling-guide.md](docs/tooling-guide.md).
 
+## Feedback Focus
+
+If you try this on a real project, the most useful feedback is:
+- Whether `/init-context` generated useful context
+- Whether `/start` actually reduced context recovery time
+- Whether `/wrap` is light enough for daily use
+- Which templates feel too heavy, too vague, or missing key fields
+- Whether solo/team mode matches your workflow
+
+Suggested GitHub topics: `ai-coding`, `claude-code`, `context-engineering`, `developer-tools`, `prompt-engineering`.
+
 ## Daily Workflow
 
 ```
@@ -344,7 +435,8 @@ context-engineering-kit/
 └── docs/
     ├── usage-guide.md               Usage guide
     ├── context-engineering-guide.md  Full development guide
-    └── tooling-guide.md              Cross-tool adaptation guide
+    ├── tooling-guide.md              Cross-tool adaptation guide
+    └── release-guide.md              Release checklist
 ```
 
 ## Core Philosophy
