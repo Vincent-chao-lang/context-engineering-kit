@@ -162,7 +162,7 @@ footer a{margin:0 10px}
 <section class="hero wrap">
   <h1 data-i18n="hero_title">Your AI should remember<br>what you built yesterday.</h1>
   <p data-i18n="hero_desc">Context Engineering Kit stores project state in files. AI reads them every session. No more cold starts.</p>
-  <div class="hero-install"><span class="dollar">$ </span>./install.sh &amp;&amp; claude "/init-context"</div>
+  <div class="hero-install"><span class="dollar">$ </span>git clone https://github.com/Vincent-chao-lang/context-engineering-kit /tmp/cek &amp;&amp; /tmp/cek/install.sh</div>
   <div class="hero-hint" data-i18n="hero_hint">Works with Claude Code. Adapts to Codex, Cursor, Windsurf.</div>
 </section>
 
@@ -232,27 +232,27 @@ footer a{margin:0 10px}
 
 <!-- What -->
 <section class="what wrap" id="what">
-  <h2 data-i18n="what_title">Three files. Three commands.</h2>
-  <p data-i18n="what_desc">The kit creates a file structure that acts as AI's memory. You run commands to read and write it. That's it.</p>
+  <h2 data-i18n="what_title">Core files. Three commands.</h2>
+  <p data-i18n="what_desc">The kit installs project docs, memory files, prompts, and Claude Code commands. The files hold context; the commands read and maintain it.</p>
   <div class="what-card">
     <div class="num">1</div>
     <div>
-      <h3 data-i18n="what_1_title">CLAUDE.md — the onboarding doc</h3>
-      <p data-i18n="what_1_desc">One file AI reads every session. Project goals, tech stack, commands, current focus. Under 100 lines. AI goes from zero to productive in 30 seconds.</p>
+      <h3 data-i18n="what_1_title">CLAUDE.md + AGENTS.md — tool entry docs</h3>
+      <p data-i18n="what_1_desc">Claude Code reads <code>CLAUDE.md</code>. Codex and other repo-instruction tools can read <code>AGENTS.md</code>. Both point AI at the same project context.</p>
     </div>
   </div>
   <div class="what-card">
     <div class="num">2</div>
     <div>
-      <h3 data-i18n="what_2_title">DECISIONS.md — the anti-reversion mechanism</h3>
-      <p data-i18n="what_2_desc">Records "why we chose X" and "why we rejected Y". When AI suggests MongoDB again, you say "check D001". It reads the reason and stops.</p>
+      <h3 data-i18n="what_2_title">ARCHITECTURE.md + DECISIONS.md + TASKS.md — shared facts</h3>
+      <p data-i18n="what_2_desc">Architecture, decisions, and current tasks live in markdown. AI can see what exists, why choices were made, and what should happen next.</p>
     </div>
   </div>
   <div class="what-card">
     <div class="num">3</div>
     <div>
-      <h3 data-i18n="what_3_title">memory/ — the auto-maintained state</h3>
-      <p data-i18n="what_3_desc">Current progress, active bugs, daily log, lessons learned. Updated by <code>/wrap</code> at end of each session. Next session picks up where you left off.</p>
+      <h3 data-i18n="what_3_title">memory/ + prompts/ — working state and rules</h3>
+      <p data-i18n="what_3_desc">Progress, bugs, daily logs, lessons learned, and coding rules stay outside chat history. <code>/start</code> reads them; <code>/wrap</code> updates them.</p>
     </div>
   </div>
 </section>
@@ -295,11 +295,11 @@ footer a{margin:0 10px}
     </details>
     <details>
       <summary data-i18n="faq_q2_q">Does it pollute my git repo?</summary>
-      <div class="answer" data-i18n="faq_q2_a"><code>CLAUDE.md</code>, <code>DECISIONS.md</code>, <code>TASKS.md</code>, and <code>ARCHITECTURE.md</code> are committed &mdash; they're useful documentation for humans too. In team mode, personal <code>memory/</code> files are gitignored. Everything is plain markdown, no binary or generated code.</div>
+      <div class="answer" data-i18n="faq_q2_a"><code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>DECISIONS.md</code>, <code>TASKS.md</code>, and <code>ARCHITECTURE.md</code> are committed &mdash; they're useful documentation for humans too. In team mode, personal <code>memory/</code> files are gitignored. Everything is plain markdown, no binary or generated code.</div>
     </details>
     <details>
-      <summary data-i18n="faq_q3_q">Can I use it with Cursor or Codex?</summary>
-      <div class="answer" data-i18n="faq_q3_a">Yes. The core idea is tool-agnostic: project facts live in files. <code>AGENTS.md</code> tells Codex how to read them. Cursor uses <code>.cursor/rules</code>. The kit generates all of these. See the <a href="#tools">cross-tool section</a> below.</div>
+      <summary data-i18n="faq_q3_q">Can I use it with Cursor, Codex, or Windsurf?</summary>
+      <div class="answer" data-i18n="faq_q3_a">Yes. The core idea is tool-agnostic: project facts live in files. <code>AGENTS.md</code> gives Codex a repo-level entry point. Cursor and Windsurf can use the same facts through their rules systems; see the <a href="#tools">cross-tool section</a> below.</div>
     </details>
     <details>
       <summary data-i18n="faq_q4_q">Can I customize the templates?</summary>
@@ -307,7 +307,7 @@ footer a{margin:0 10px}
     </details>
     <details>
       <summary data-i18n="faq_q5_q">Solo or team mode?</summary>
-      <div class="answer" data-i18n="faq_q5_a">Start with solo (default). If you later need team collaboration, re-run <code>install.sh --team --user yourname</code>. It migrates your existing memory into a personal directory and creates the shared structure. No data loss.</div>
+      <div class="answer" data-i18n="faq_q5_a">Start with solo (default). If you need team collaboration, run <code>install.sh --team --user yourname</code>. It creates shared memory, personal memory, <code>memory/TEAM.md</code>, and git merge rules. Existing files are not deleted; move useful solo memory into the team structure when you establish the team baseline.</div>
     </details>
     <details>
       <summary data-i18n="faq_q6_q">Can I use it on an existing project?</summary>
@@ -323,7 +323,7 @@ footer a{margin:0 10px}
     <div class="how-step">
       <div class="how-step-bar"><span data-i18n="how_step1_bar">Install</span> <span class="step-num">step 1</span></div>
       <pre data-i18n="how_step1_pre"><span class="comment"># In your project root</span>
-git clone &lt;kit-url&gt; /tmp/cek
+git clone https://github.com/Vincent-chao-lang/context-engineering-kit /tmp/cek
 /tmp/cek/install.sh</pre>
     </div>
     <div class="how-step">
@@ -332,8 +332,8 @@ git clone &lt;kit-url&gt; /tmp/cek
 /init-context
 
 <span class="comment"># AI analyzes your project,
-   generates CLAUDE.md,
-   ARCHITECTURE.md,
+   generates CLAUDE.md, AGENTS.md,
+   ARCHITECTURE.md, TASKS.md,
    DECISIONS.md, memory/...</span>
 
 <span class="comment"># Review and commit</span>
@@ -425,14 +425,14 @@ const I18N = {
     val_bug_title: "Bug awareness",
     val_bug_desc: "Known bugs stay visible. AI won't reintroduce a fix or ignore a known issue when writing new code.",
     val_bug_pre: '<span class="bad">Before:</span> AI fixes bug, next session\n         re-introduces the same broken pattern\n<span class="good">After:</span>  /start shows active bugs\n         AI avoids known-broken patterns\n         /wrap moves fixed bugs to resolved',
-    what_title: "Three files. Three commands.",
-    what_desc: "The kit creates a file structure that acts as AI's memory. You run commands to read and write it. That's it.",
-    what_1_title: "CLAUDE.md &mdash; the onboarding doc",
-    what_1_desc: 'One file AI reads every session. Project goals, tech stack, commands, current focus. Under 100 lines. AI goes from zero to productive in 30 seconds.',
-    what_2_title: "DECISIONS.md &mdash; the anti-reversion mechanism",
-    what_2_desc: 'Records "why we chose X" and "why we rejected Y". When AI suggests MongoDB again, you say "check D001". It reads the reason and stops.',
-    what_3_title: "memory/ &mdash; the auto-maintained state",
-    what_3_desc: 'Current progress, active bugs, daily log, lessons learned. Updated by <code>/wrap</code> at end of each session. Next session picks up where you left off.',
+    what_title: "Core files. Three commands.",
+    what_desc: "The kit installs project docs, memory files, prompts, and Claude Code commands. The files hold context; the commands read and maintain it.",
+    what_1_title: "CLAUDE.md + AGENTS.md &mdash; tool entry docs",
+    what_1_desc: 'Claude Code reads <code>CLAUDE.md</code>. Codex and other repo-instruction tools can read <code>AGENTS.md</code>. Both point AI at the same project context.',
+    what_2_title: "ARCHITECTURE.md + DECISIONS.md + TASKS.md &mdash; shared facts",
+    what_2_desc: "Architecture, decisions, and current tasks live in markdown. AI can see what exists, why choices were made, and what should happen next.",
+    what_3_title: "memory/ + prompts/ &mdash; working state and rules",
+    what_3_desc: 'Progress, bugs, daily logs, lessons learned, and coding rules stay outside chat history. <code>/start</code> reads them; <code>/wrap</code> updates them.',
     uc_title: "Is this for you?",
     uc_desc: "If any of these sound familiar, yes.",
     uc_side_label: "Side project",
@@ -451,20 +451,20 @@ const I18N = {
     faq_q1_q: "How is this different from Claude Code's built-in memory?",
     faq_q1_a: 'Claude Code memory (<code>.claude/memory/</code>) stores user preferences and general background &mdash; like "I prefer TypeScript" or "use conventional commits". This kit stores <em>project state</em>: what\'s done, what\'s broken, what was decided and why, what\'s next. They complement each other. Built-in memory is about <em>who you are</em>; this kit is about <em>where the project is</em>.',
     faq_q2_q: "Does it pollute my git repo?",
-    faq_q2_a: '<code>CLAUDE.md</code>, <code>DECISIONS.md</code>, <code>TASKS.md</code>, and <code>ARCHITECTURE.md</code> are committed &mdash; they\'re useful documentation for humans too. In team mode, personal <code>memory/</code> files are gitignored. Everything is plain markdown, no binary or generated code.',
-    faq_q3_q: "Can I use it with Cursor or Codex?",
-    faq_q3_a: 'Yes. The core idea is tool-agnostic: project facts live in files. <code>AGENTS.md</code> tells Codex how to read them. Cursor uses <code>.cursor/rules</code>. The kit generates all of these. See the <a href="#tools">cross-tool section</a> below.',
+    faq_q2_a: '<code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>DECISIONS.md</code>, <code>TASKS.md</code>, and <code>ARCHITECTURE.md</code> are committed &mdash; they\'re useful documentation for humans too. In team mode, personal <code>memory/</code> files are gitignored. Everything is plain markdown, no binary or generated code.',
+    faq_q3_q: "Can I use it with Cursor, Codex, or Windsurf?",
+    faq_q3_a: 'Yes. The core idea is tool-agnostic: project facts live in files. <code>AGENTS.md</code> gives Codex a repo-level entry point. Cursor and Windsurf can use the same facts through their rules systems; see the <a href="#tools">cross-tool section</a> below.',
     faq_q4_q: "Can I customize the templates?",
     faq_q4_a: 'Everything is markdown. Edit any file, add sections, remove what you don\'t need. The templates are starting points, not constraints. Commands under <code>.claude/commands/</code> are plain markdown too &mdash; change the steps to match your workflow.',
     faq_q5_q: "Solo or team mode?",
-    faq_q5_a: 'Start with solo (default). If you later need team collaboration, re-run <code>install.sh --team --user yourname</code>. It migrates your existing memory into a personal directory and creates the shared structure. No data loss.',
+    faq_q5_a: 'Start with solo (default). If you need team collaboration, run <code>install.sh --team --user yourname</code>. It creates shared memory, personal memory, <code>memory/TEAM.md</code>, and git merge rules. Existing files are not deleted; move useful solo memory into the team structure when you establish the team baseline.',
     faq_q6_q: "Can I use it on an existing project?",
     faq_q6_a: 'Yes. <code>/init-context</code> analyzes your existing codebase and generates context files. If you already have <code>CLAUDE.md</code>, it reads and preserves it, only adding missing sections.',
     how_title: "Try it in 60 seconds.",
     how_step1_bar: "Install",
-    how_step1_pre: '<span class="comment"># In your project root</span>\ngit clone &lt;kit-url&gt; /tmp/cek\n/tmp/cek/install.sh',
+    how_step1_pre: '<span class="comment"># In your project root</span>\ngit clone https://github.com/Vincent-chao-lang/context-engineering-kit /tmp/cek\n/tmp/cek/install.sh',
     how_step2_bar: "Initialize",
-    how_step2_pre: '<span class="comment"># In Claude Code</span>\n/init-context\n\n<span class="comment"># AI analyzes your project,\n   generates CLAUDE.md,\n   ARCHITECTURE.md,\n   DECISIONS.md, memory/...</span>\n\n<span class="comment"># Review and commit</span>\ngit add . &amp;&amp; git commit',
+    how_step2_pre: '<span class="comment"># In Claude Code</span>\n/init-context\n\n<span class="comment"># AI analyzes your project,\n   generates CLAUDE.md, AGENTS.md,\n   ARCHITECTURE.md, TASKS.md,\n   DECISIONS.md, memory/...</span>\n\n<span class="comment"># Review and commit</span>\ngit add . &amp;&amp; git commit',
     how_step3_bar: "Daily loop",
     how_step3_pre: '<span class="comment"># Start of day</span>\n/start\n<span class="comment"># AI reads context, ready to work</span>\n\n<span class="comment"># ... code, commit, code ...</span>\n\n<span class="comment"># End of day</span>\n/wrap\n<span class="comment"># AI updates memory for next time</span>',
     tools_title: "Works with your favorite tool.",
@@ -500,14 +500,14 @@ const I18N = {
     val_bug_title: "Bug 感知",
     val_bug_desc: "已知 bug 始终可见。AI 不会重新引入已修复的问题，也不会忽略已知缺陷。",
     val_bug_pre: '<span class="bad">使用前：</span> AI 修复了 bug，下次会话\n           又引入了同样的错误模式\n<span class="good">使用后：</span>  /start 显示活跃 bug\n           AI 避开已知问题模式\n           /wrap 将已修复 bug 移入已解决',
-    what_title: "三个文件。三个命令。",
-    what_desc: "Kit 创建一套充当 AI 记忆的文件结构。你通过命令读写它。就这么简单。",
-    what_1_title: "CLAUDE.md &mdash; 入职文档",
-    what_1_desc: "AI 每次会话必读的文件。项目目标、技术栈、命令、当前重点。100 行以内。AI 从零到高效只需 30 秒。",
-    what_2_title: "DECISIONS.md &mdash; 防推翻机制",
-    what_2_desc: '记录"为什么选了 X"和"为什么否决了 Y"。当 AI 再次提议用 MongoDB 时，你说"查看 D001"，它读到原因就不再提了。',
-    what_3_title: "memory/ &mdash; 自动维护的状态",
-    what_3_desc: '当前进度、活跃 bug、每日日志、踩坑经验。由 <code>/wrap</code> 在每次会话结束时自动更新。下次会话从你停下的地方继续。',
+    what_title: "核心文件。三个命令。",
+    what_desc: "Kit 安装项目文档、memory 文件、prompts 和 Claude Code 命令。文件保存上下文，命令负责读取和维护。",
+    what_1_title: "CLAUDE.md + AGENTS.md &mdash; 工具入口文档",
+    what_1_desc: "Claude Code 读取 <code>CLAUDE.md</code>。Codex 和其他仓库级 instructions 工具可以读取 <code>AGENTS.md</code>。两者都指向同一套项目上下文。",
+    what_2_title: "ARCHITECTURE.md + DECISIONS.md + TASKS.md &mdash; 共享事实",
+    what_2_desc: "架构、决策和当前任务都放在 markdown 中。AI 能看到系统现状、决策原因和下一步工作。",
+    what_3_title: "memory/ + prompts/ &mdash; 工作状态和规则",
+    what_3_desc: "进度、bug、每日日志、经验教训和编码规则都放在聊天历史之外。<code>/start</code> 读取它们，<code>/wrap</code> 更新它们。",
     uc_title: "适合你吗？",
     uc_desc: "以下任一条符合，就是。",
     uc_side_label: "个人项目",
@@ -526,20 +526,20 @@ const I18N = {
     faq_q1_q: "这和 Claude Code 内置的 memory 有什么区别？",
     faq_q1_a: 'Claude Code 内置 memory（<code>.claude/memory/</code>）存储用户偏好和通用背景 &mdash; 比如"我偏好 TypeScript"或"使用约定式提交"。本 Kit 存储的是<em>项目状态</em>：完成了什么、什么坏了、做了什么决策及原因、下一步是什么。两者互补。内置 memory 记录的是<em>你是谁</em>；本 Kit 记录的是<em>项目进展到哪了</em>。',
     faq_q2_q: "会污染我的 git 仓库吗？",
-    faq_q2_a: '<code>CLAUDE.md</code>、<code>DECISIONS.md</code>、<code>TASKS.md</code> 和 <code>ARCHITECTURE.md</code> 会被提交 &mdash; 它们对人类也是有用的文档。团队模式下，个人 <code>memory/</code> 文件被 gitignore 排除。全部是纯 markdown，没有二进制或生成代码。',
-    faq_q3_q: "可以配合 Cursor 或 Codex 使用吗？",
-    faq_q3_a: '可以。核心理念与工具无关：项目事实存放在文件中。<code>AGENTS.md</code> 告诉 Codex 如何读取它们。Cursor 使用 <code>.cursor/rules</code>。Kit 会生成所有这些文件。参见下方<a href="#tools">跨工具适配</a>。',
+    faq_q2_a: '<code>CLAUDE.md</code>、<code>AGENTS.md</code>、<code>DECISIONS.md</code>、<code>TASKS.md</code> 和 <code>ARCHITECTURE.md</code> 会被提交 &mdash; 它们对人类也是有用的文档。团队模式下，个人 <code>memory/</code> 文件被 gitignore 排除。全部是纯 markdown，没有二进制或生成代码。',
+    faq_q3_q: "可以配合 Cursor、Codex 或 Windsurf 使用吗？",
+    faq_q3_a: '可以。核心理念与工具无关：项目事实存放在文件中。<code>AGENTS.md</code> 给 Codex 一个仓库级入口。Cursor 和 Windsurf 可以通过各自的 rules 系统复用同一套事实。参见下方<a href="#tools">跨工具适配</a>。',
     faq_q4_q: "模板可以自定义吗？",
     faq_q4_a: '所有内容都是 markdown。编辑任何文件、添加章节、删除不需要的内容。模板是起点，不是约束。<code>.claude/commands/</code> 下的命令也是纯 markdown &mdash; 修改步骤以匹配你的工作流。',
     faq_q5_q: "用 Solo 还是 Team 模式？",
-    faq_q5_a: '先用 solo（默认）。如果后来需要团队协作，重新运行 <code>install.sh --team --user 你的名字</code>。它会将已有的 memory 迁移到个人目录，并创建共享结构。数据不会丢失。',
+    faq_q5_a: '先用 solo（默认）。如果需要团队协作，运行 <code>install.sh --team --user 你的名字</code>。它会创建共享 memory、个人 memory、<code>memory/TEAM.md</code> 和 git 合并规则。已有文件不会被删除；建立团队基线时，把有用的 solo memory 手动移入团队结构。',
     faq_q6_q: "可以用于已有项目吗？",
     faq_q6_a: '可以。<code>/init-context</code> 会分析你现有的代码库并生成上下文文件。如果已有 <code>CLAUDE.md</code>，它会读取并保留原有内容，只补充缺失的部分。',
     how_title: "60 秒上手。",
     how_step1_bar: "安装",
-    how_step1_pre: '<span class="comment"># 在项目根目录</span>\ngit clone &lt;kit-url&gt; /tmp/cek\n/tmp/cek/install.sh',
+    how_step1_pre: '<span class="comment"># 在项目根目录</span>\ngit clone https://github.com/Vincent-chao-lang/context-engineering-kit /tmp/cek\n/tmp/cek/install.sh',
     how_step2_bar: "初始化",
-    how_step2_pre: '<span class="comment"># 在 Claude Code 中</span>\n/init-context\n\n<span class="comment"># AI 分析你的项目，\n   生成 CLAUDE.md、\n   ARCHITECTURE.md、\n   DECISIONS.md、memory/...</span>\n\n<span class="comment"># 检查并提交</span>\ngit add . &amp;&amp; git commit',
+    how_step2_pre: '<span class="comment"># 在 Claude Code 中</span>\n/init-context\n\n<span class="comment"># AI 分析你的项目，\n   生成 CLAUDE.md、AGENTS.md、\n   ARCHITECTURE.md、TASKS.md、\n   DECISIONS.md、memory/...</span>\n\n<span class="comment"># 检查并提交</span>\ngit add . &amp;&amp; git commit',
     how_step3_bar: "日常循环",
     how_step3_pre: '<span class="comment"># 开始工作</span>\n/start\n<span class="comment"># AI 读取上下文，准备就绪</span>\n\n<span class="comment"># ... 编码、提交、编码 ...</span>\n\n<span class="comment"># 结束工作</span>\n/wrap\n<span class="comment"># AI 更新 memory，为下次做准备</span>',
     tools_title: "适配你喜欢的工具。",
