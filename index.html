@@ -128,6 +128,18 @@ details .answer code{font-size:.85em}
 .tool-item .tool-name{font-weight:600;font-size:.95rem;margin-bottom:4px}
 .tool-item .tool-entry{font-family:var(--mono);font-size:.8rem;color:var(--text3)}
 
+/* Resources */
+.resources{padding:70px 0;text-align:center}
+.resources h2{font-size:1.5rem;font-weight:600;margin-bottom:12px}
+.resources>p{color:var(--text2);margin-bottom:32px;font-size:.95rem}
+.resource-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;text-align:left}
+@media(max-width:760px){.resource-grid{grid-template-columns:1fr}}
+.resource-card{display:block;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px;transition:all .2s;color:var(--text)}
+.resource-card:hover{border-color:var(--accent2);transform:translateY(-2px)}
+.resource-card .resource-label{font-size:.72rem;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:700}
+.resource-card h3{font-size:1rem;font-weight:600;margin-bottom:8px;color:var(--text)}
+.resource-card p{font-size:.88rem;line-height:1.6;color:var(--text2)}
+
 /* Social */
 .social{padding:60px 0;text-align:center;border-top:1px solid var(--border)}
 .social p{color:var(--text2);font-size:.95rem;margin-bottom:8px}
@@ -378,6 +390,29 @@ git add . &amp;&amp; git commit</pre>
   </div>
 </section>
 
+<!-- Resources -->
+<section class="resources wrap" id="resources">
+  <h2 data-i18n="resources_title">Read the playbooks.</h2>
+  <p data-i18n="resources_desc">Books and demo material for learning, sharing, and launching the methodology.</p>
+  <div class="resource-grid">
+    <a class="resource-card" href="https://github.com/Vincent-chao-lang/context-engineering-kit/blob/main/docs/book/variant-1-mini-handbook.md">
+      <div class="resource-label" data-i18n="resource_mini_label">Mini handbook</div>
+      <h3 data-i18n="resource_mini_title">Mini Handbook</h3>
+      <p data-i18n="resource_mini_desc">Run AI project memory in one afternoon.</p>
+    </a>
+    <a class="resource-card" href="https://github.com/Vincent-chao-lang/context-engineering-kit/blob/main/docs/book/variant-3-complete-book.md">
+      <div class="resource-label" data-i18n="resource_book_label">Complete book</div>
+      <h3 data-i18n="resource_book_title">Complete Practice Book</h3>
+      <p data-i18n="resource_book_desc">A 15-chapter path from tool usage to team habits.</p>
+    </a>
+    <a class="resource-card" href="https://github.com/Vincent-chao-lang/context-engineering-kit/blob/main/docs/demo.md">
+      <div class="resource-label" data-i18n="resource_demo_label">Demo script</div>
+      <h3 data-i18n="resource_demo_title">Demo Script</h3>
+      <p data-i18n="resource_demo_desc">Show before/after install, <code>/start</code>, <code>/wrap</code>, and team mode.</p>
+    </a>
+  </div>
+</section>
+
 <!-- Social Proof -->
 <section class="social wrap">
   <p data-i18n="social_desc">Used by developers who are tired of re-explaining their projects.</p>
@@ -469,6 +504,17 @@ const I18N = {
     how_step3_pre: '<span class="comment"># Start of day</span>\n/start\n<span class="comment"># AI reads context, ready to work</span>\n\n<span class="comment"># ... code, commit, code ...</span>\n\n<span class="comment"># End of day</span>\n/wrap\n<span class="comment"># AI updates memory for next time</span>',
     tools_title: "Works with your favorite tool.",
     tools_desc: "Same files. Different entry points.",
+    resources_title: "Read the playbooks.",
+    resources_desc: "Books and demo material for learning, sharing, and launching the methodology.",
+    resource_mini_label: "Mini handbook",
+    resource_mini_title: "Mini Handbook",
+    resource_mini_desc: "Run AI project memory in one afternoon.",
+    resource_book_label: "Complete book",
+    resource_book_title: "Complete Practice Book",
+    resource_book_desc: "A 15-chapter path from tool usage to team habits.",
+    resource_demo_label: "Demo script",
+    resource_demo_title: "Demo Script",
+    resource_demo_desc: 'Show before/after install, <code>/start</code>, <code>/wrap</code>, and team mode.',
     social_desc: "Used by developers who are tired of re-explaining their projects.",
     social_stars: " stars on GitHub",
     social_cta: "Star on GitHub",
@@ -544,6 +590,17 @@ const I18N = {
     how_step3_pre: '<span class="comment"># 开始工作</span>\n/start\n<span class="comment"># AI 读取上下文，准备就绪</span>\n\n<span class="comment"># ... 编码、提交、编码 ...</span>\n\n<span class="comment"># 结束工作</span>\n/wrap\n<span class="comment"># AI 更新 memory，为下次做准备</span>',
     tools_title: "适配你喜欢的工具。",
     tools_desc: "同样的文件，不同的入口。",
+    resources_title: "继续阅读。",
+    resources_desc: "用于学习、分享和推广 Context Engineering 方法论的书籍与演示材料。",
+    resource_mini_label: "迷你手册",
+    resource_mini_title: "迷你手册",
+    resource_mini_desc: "用一个下午跑通 AI 项目记忆。",
+    resource_book_label: "完整实践书",
+    resource_book_title: "完整实践书",
+    resource_book_desc: "从工具到团队习惯的 15 章完整路径。",
+    resource_demo_label: "Demo 脚本",
+    resource_demo_title: "Demo 脚本",
+    resource_demo_desc: '展示安装前后、<code>/start</code>、<code>/wrap</code> 和 team mode 的差异。',
     social_desc: "被厌倦了反复解释项目的开发者使用。",
     social_stars: " GitHub stars",
     social_cta: "在 GitHub 上 Star",
