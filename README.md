@@ -10,6 +10,18 @@
 - 长期项目里任务、bug、实验和经验散落在聊天记录里
 - 想给个人项目或小团队建立一套低成本的 AI 协作习惯
 
+## 开始了解
+
+<p>
+  <img src="docs/book/covers/variant-1-mini-handbook-cover.png" alt="Context Engineering Kit 迷你手册封面" width="220">
+  <img src="docs/book/covers/variant-3-complete-book-cover.png" alt="Context Engineering 完整实践书封面" width="220">
+</p>
+
+- [迷你手册](docs/book/variant-1-mini-handbook.md) — 用一个下午跑通 AI 项目记忆。
+- [完整实践书](docs/book/variant-3-complete-book.md) — 从工具到团队习惯的 15 章完整路径。
+- [Launch Post 草稿](docs/launch-post.md) — 对外发布时可直接改写使用。
+- [Demo 脚本](docs/demo.md) — 展示安装前后、`/start`、`/wrap` 和 team mode 的差异。
+
 ## 30 秒快速开始
 
 ```bash

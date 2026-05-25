@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2400" viewBox="0 0 1600 2400" role="img" aria-labelledby="title desc">
+  <title id="title">Context Engineering 完整实践书封面</title>
+  <desc id="desc">深蓝色书籍封面，包含 Context Engineering 完整实践书标题和团队上下文系统主题图形。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#020617"/>
+      <stop offset="0.45" stop-color="#08245a"/>
+      <stop offset="1" stop-color="#123f8c"/>
+    </linearGradient>
+    <radialGradient id="aura" cx="50%" cy="42%" r="56%">
+      <stop offset="0" stop-color="#60a5fa" stop-opacity="0.34"/>
+      <stop offset="0.5" stop-color="#2563eb" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="node" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e0f2fe"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="32" stdDeviation="28" flood-color="#020617" flood-opacity="0.42"/>
+    </filter>
+    <pattern id="microgrid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#dbeafe" stroke-opacity="0.055" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="2400" fill="url(#bg)"/>
+  <rect width="1600" height="2400" fill="url(#microgrid)"/>
+  <rect width="1600" height="2400" fill="url(#aura)"/>
+
+  <path d="M1600 0V2400H1260C1370 2120 1330 1830 1160 1600C950 1315 1030 1030 1230 770C1390 560 1450 300 1390 0Z" fill="#38bdf8" opacity="0.07"/>
+  <path d="M0 2100C310 1940 580 2050 810 1900C1040 1750 1220 1630 1600 1740V2400H0Z" fill="#020617" opacity="0.25"/>
+
+  <g transform="translate(164 228)">
+    <text x="0" y="0" fill="#bfdbfe" font-family="Inter, PingFang SC, Microsoft YaHei, Arial, sans-serif" font-size="38" font-weight="700">CONTEXT ENGINEERING</text>
+    <rect x="0" y="48" width="304" height="6" rx="3" fill="#60a5fa"/>
+  </g>
+
+  <g transform="translate(164 575)">
+    <text x="0" y="0" fill="#f8fafc" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" font-size="138" font-weight="850">完整实践书</text>
+    <text x="0" y="136" fill="#dbeafe" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" font-size="58" font-weight="650">从工具到团队习惯</text>
+    <text x="0" y="226" fill="#93c5fd" font-family="Inter, Arial, sans-serif" font-size="39" font-weight="500">Project memory, decisions, workflow, and team context</text>
+  </g>
+
+  <g transform="translate(220 1035)" filter="url(#shadow)">
+    <g fill="none" stroke="#60a5fa" stroke-width="7" stroke-linecap="round" opacity="0.78">
+      <path d="M560 250L320 105"/>
+      <path d="M560 250L815 95"/>
+      <path d="M560 250L880 388"/>
+      <path d="M560 250L512 548"/>
+      <path d="M320 105L196 360"/>
+      <path d="M815 95L880 388"/>
+      <path d="M196 360L512 548"/>
+      <path d="M512 548L880 388"/>
+    </g>
+    <g>
+      <circle cx="560" cy="250" r="98" fill="#0f2f61" stroke="#bfdbfe" stroke-opacity="0.72" stroke-width="3"/>
+      <circle cx="320" cy="105" r="68" fill="#0b3a75" stroke="#60a5fa" stroke-opacity="0.7" stroke-width="3"/>
+      <circle cx="815" cy="95" r="68" fill="#0b3a75" stroke="#60a5fa" stroke-opacity="0.7" stroke-width="3"/>
+      <circle cx="880" cy="388" r="68" fill="#0b3a75" stroke="#60a5fa" stroke-opacity="0.7" stroke-width="3"/>
+      <circle cx="512" cy="548" r="68" fill="#0b3a75" stroke="#60a5fa" stroke-opacity="0.7" stroke-width="3"/>
+      <circle cx="196" cy="360" r="68" fill="#0b3a75" stroke="#60a5fa" stroke-opacity="0.7" stroke-width="3"/>
+    </g>
+    <g font-family="Inter, Arial, sans-serif" font-weight="800" text-anchor="middle">
+      <text x="560" y="238" fill="#f8fafc" font-size="30">PROJECT</text>
+      <text x="560" y="278" fill="#bfdbfe" font-size="26">CONTEXT</text>
+      <text x="320" y="116" fill="#e0f2fe" font-size="25">FACTS</text>
+      <text x="815" y="106" fill="#e0f2fe" font-size="25">TASKS</text>
+      <text x="880" y="399" fill="#e0f2fe" font-size="25">TEAM</text>
+      <text x="512" y="559" fill="#e0f2fe" font-size="25">MEMORY</text>
+      <text x="196" y="371" fill="#e0f2fe" font-size="25">RULES</text>
+    </g>
+  </g>
+
+  <g transform="translate(164 1810)">
+    <rect x="0" y="0" width="1160" height="154" rx="22" fill="#0b1f45" stroke="#93c5fd" stroke-opacity="0.24"/>
+    <text x="52" y="116" fill="#93c5fd" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" font-size="38" font-weight="700">问题与方法 · 文件体系 · 日常流程 · 团队与演进</text>
+  </g>
+
+  <g transform="translate(164 2150)">
+    <rect x="0" y="0" width="1260" height="2" fill="#93c5fd" opacity="0.22"/>
+    <text x="0" y="92" fill="#bfdbfe" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="600">Context Engineering Kit Book Series</text>
+  </g>
+</svg>
